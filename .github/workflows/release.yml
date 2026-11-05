@@ -3,8 +3,9 @@ name: Release
 # Publie une release GitHub avec les installateurs Windows, macOS et Linux :
 # - à chaque push sur la branche « release » (le tag vX.Y.Z est créé d'après
 #   la version de src-tauri/tauri.conf.json),
-# - à chaque tag « v* » (ex. v0.1.0),
+# - à chaque tag « v* »,
 # - ou manuellement depuis l'onglet Actions.
+# N'utilise que des actions officielles GitHub et le CLI gh préinstallé.
 on:
   push:
     branches: [release]
@@ -15,6 +16,35 @@ permissions:
   contents: write
 
 jobs:
+  prepare:
+    runs-on: ubuntu-22.04
+    outputs:
+      tag: ${{ steps.v.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Version
+        id: v
+        run: |
+          VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Créer la release (si absente)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.v.outputs.tag }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "La release $TAG existe déjà."
+          else
+            gh release create "$TAG" --target "$GITHUB_SHA" --title "Atelier VSM $TAG" --notes-file - <<'EOF'
+          Installateurs d'Atelier VSM :
+          - **Windows** : `.msi` ou `-setup.exe`
+          - **macOS** : `.dmg` (`aarch64` = Apple Silicon, `x64` = Intel)
+          - **Linux** : `.AppImage`, `.deb` ou `.rpm`
+
+          Les binaires ne sont pas signés : au premier lancement, Windows SmartScreen demande « Informations complémentaires → Exécuter quand même » ; sur macOS, faites clic droit → Ouvrir.
+          EOF
+          fi
+
   test:
     runs-on: ubuntu-22.04
     steps:
@@ -23,33 +53,33 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: swatinem/rust-cache@v2
-        with:
-          workspaces: src-tauri -> target
+      - run: rustup toolchain install stable --profile minimal && rustup default stable
       - name: Tests du moteur de calcul VSM
         run: cargo test --manifest-path src-tauri/Cargo.toml
 
   build:
-    needs: test
+    needs: [prepare, test]
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: windows-latest
-            args: ""
-          - platform: macos-latest
-            args: "--target aarch64-apple-darwin"
-          - platform: macos-latest
-            args: "--target x86_64-apple-darwin"
-          - platform: ubuntu-22.04
-            args: ""
-    runs-on: ${{ matrix.platform }}
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
 
       - name: Dépendances système (Linux)
-        if: matrix.platform == 'ubuntu-22.04'
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev patchelf
@@ -59,29 +89,33 @@ jobs:
           node-version: 22
           cache: npm
 
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - name: Rust
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          rustup target add ${{ matrix.target }}
 
-      - uses: swatinem/rust-cache@v2
+      - uses: actions/cache@v4
         with:
-          workspaces: src-tauri -> target
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: cargo-${{ matrix.target }}-${{ hashFiles('src-tauri/Cargo.lock') }}
 
       - run: npm ci
 
-      - uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: ${{ github.ref_type == 'tag' && github.ref_name || 'v__VERSION__' }}
-          releaseName: "Atelier VSM ${{ github.ref_type == 'tag' && github.ref_name || 'v__VERSION__' }}"
-          releaseBody: |
-            Installateurs d'Atelier VSM :
-            - **Windows** : `.msi` ou `-setup.exe`
-            - **macOS** : `.dmg` (`aarch64` = Apple Silicon, `x64` = Intel)
-            - **Linux** : `.AppImage`, `.deb` ou `.rpm`
+      - name: Build
+        run: npx tauri build --target ${{ matrix.target }}
 
-            Les binaires ne sont pas signés : au premier lancement, Windows SmartScreen demande « Informations complémentaires → Exécuter quand même » ; sur macOS, faites clic droit → Ouvrir.
-          releaseDraft: false
-          prerelease: false
-          args: ${{ matrix.args }}
+      - name: Publier les installateurs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+        run: |
+          shopt -s nullglob
+          B="src-tauri/target/${{ matrix.target }}/release/bundle"
+          files=("$B"/msi/*.msi "$B"/nsis/*.exe "$B"/dmg/*.dmg "$B"/deb/*.deb "$B"/rpm/*.rpm "$B"/appimage/*.AppImage)
+          if [ ${#files[@]} -eq 0 ]; then echo "Aucun installateur trouvé"; ls -R "$B" || true; exit 1; fi
+          printf '%s\n' "${files[@]}"
+          gh release upload "$TAG" "${files[@]}" --clobber
