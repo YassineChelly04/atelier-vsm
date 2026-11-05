@@ -141,7 +141,8 @@ pub fn metrics(p: &Page) -> Metrics {
                 ct_over_takt: if takt > 0.0 { ct / takt } else { 0.0 },
             });
         } else {
-            let q = n.num("qty");
+            // Quantité saisie, ou couverture saisie en jours × demande journalière.
+            let q = if n.num("qty") == 0.0 && n.num("cov") > 0.0 { n.num("cov") * daily } else { n.num("qty") };
             wip += q;
             if daily > 0.0 {
                 inv_days += q / daily;
@@ -287,6 +288,15 @@ mod tests {
         let csv = report_csv(&d);
         assert!(csv.contains("État actuel;Takt;60,0;s"));
         assert!(csv.contains("Peinture;62,0"));
+    }
+
+    #[test]
+    fn coverage_in_days_counts_like_quantity() {
+        let mut p = sample();
+        // Stock amont saisi en jours (5 j) au lieu d'une quantité : 5 × 920 = 4 600 p.
+        p.nodes.insert(0, serde_json::from_value(json!({"type":"inventory","x":-60,"w":50,"props":{"qty":"","cov":5}})).unwrap());
+        let m = metrics(&p);
+        assert!((m.wip - 19_600.0).abs() < 1e-9);
     }
 
     #[test]

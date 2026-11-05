@@ -16,17 +16,17 @@
 /* Layout : coquille d'application — barre haute, palette de symboles | plan de travail | inspecteur ; le brainstorming est une colonne de lecture */
 :root{
   --bg:#E8EBEE; --panel:#F6F7F8; --canvas:#FFFFFF; --grid:#C3CAD3; --ink:#17202B; --muted:#5A6573; --line:#D5DAE0;
-  --accent:#1D5FD1; --accent-soft:rgba(29,95,209,.12); --guide:#D6336C; --kaizen:#F3C53A; --kaizen-soft:#FFF3C4;
+  --accent:#2448D8; --accent-soft:rgba(36,72,216,.12); --brand:#2448D8; --amber:#F5A524; --guide:#D6336C; --kaizen:#F3C53A; --kaizen-soft:#FFF3C4;
   --ok:#2B8A3E; --warn:#C87412; --bad:#C92A2A; --bad-soft:rgba(201,42,42,.13); --warn-soft:rgba(200,116,18,.14); --on-accent:#FFFFFF;
   --f-display:'Barlow Condensed','Arial Narrow',sans-serif; --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0F1318; --panel:#151A21; --canvas:#0B0F14; --grid:#2A323D; --ink:#DCE4EE; --muted:#8C99A8; --line:#252D37;
-  --accent:#62A0FF; --accent-soft:rgba(98,160,255,.16); --guide:#FF5D98; --kaizen:#E4B21F; --kaizen-soft:#3B3112;
+  --accent:#7C9BFF; --accent-soft:rgba(124,155,255,.17); --brand:#3A5CF0; --amber:#F5A524; --guide:#FF5D98; --kaizen:#E4B21F; --kaizen-soft:#3B3112;
   --ok:#5BD177; --warn:#F2A03D; --bad:#FF6B6B; --bad-soft:rgba(255,107,107,.17); --warn-soft:rgba(242,160,61,.16); --on-accent:#0B0F14; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F1318; --panel:#151A21; --canvas:#0B0F14; --grid:#2A323D; --ink:#DCE4EE; --muted:#8C99A8; --line:#252D37;
-  --accent:#62A0FF; --accent-soft:rgba(98,160,255,.16); --guide:#FF5D98; --kaizen:#E4B21F; --kaizen-soft:#3B3112;
+  --accent:#7C9BFF; --accent-soft:rgba(124,155,255,.17); --brand:#3A5CF0; --amber:#F5A524; --guide:#FF5D98; --kaizen:#E4B21F; --kaizen-soft:#3B3112;
   --ok:#5BD177; --warn:#F2A03D; --bad:#FF6B6B; --bad-soft:rgba(255,107,107,.17); --warn-soft:rgba(242,160,61,.16); --on-accent:#0B0F14; color-scheme:dark}
 
 [hidden]{display:none!important}
@@ -41,7 +41,9 @@ button{cursor:pointer}
 /* Barre haute */
 .topbar{display:flex;align-items:center;gap:14px;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--panel);border-bottom:1px solid var(--line);min-width:0}
 .brand{display:flex;align-items:center;gap:9px;font:700 21px/1 var(--f-display);letter-spacing:.02em;white-space:nowrap}
-.brand svg{width:30px;height:24px}
+.brand svg{width:28px;height:28px;flex:none}
+.brand span b{font-weight:700}
+.brand span{font-weight:500}
 .nav{display:flex;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:2px}
 .nav button{border:0;background:none;padding:5px 12px;border-radius:5px;font:600 15px/1.2 var(--f-display);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .nav button[aria-current="page"]{background:var(--canvas);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
@@ -70,8 +72,14 @@ button{cursor:pointer}
 
 .pal-search{position:sticky;top:0;background:var(--panel);padding:10px 12px 8px;z-index:2;border-bottom:1px solid var(--line)}
 .pal-search input{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--canvas);border-radius:6px;padding:6px 9px;font-size:13px}
-.pal-group{padding:10px 12px 4px}
-.pal-group h3{margin:0 0 7px;font:600 12.5px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.pal-group{padding:4px 12px 4px;border-bottom:1px solid var(--line)}
+.pal-group summary{list-style:none;cursor:pointer;padding:8px 0 6px;display:flex;align-items:center;gap:6px}
+.pal-group summary::-webkit-details-marker{display:none}
+.pal-group summary::before{content:"";width:6px;height:6px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:none;margin-right:2px}
+.pal-group[open] summary::before{transform:rotate(45deg)}
+.pal-group[open] .pal-grid{margin-bottom:8px}
+.pal-group summary h3{margin:0;flex:1}
+.pal-group h3{margin:0;font:600 12.5px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
 .pal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
 .pal-item{display:flex;flex-direction:column;align-items:center;gap:3px;border:1px solid transparent;border-radius:7px;background:none;padding:6px 2px 5px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .pal-item:hover{background:var(--canvas);border-color:var(--line)}
@@ -122,6 +130,15 @@ button{cursor:pointer}
 .lk-lbl{fill:var(--canvas);stroke:var(--line)}
 .lk-sel{fill:none;stroke:var(--accent);stroke-opacity:.35;stroke-linecap:round;stroke-linejoin:round}
 .tl-line{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ix{fill:var(--ink);font:700 15px var(--f-display)}
+.lq{fill:var(--accent-soft);stroke:none}
+.qb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.8}
+.en{fill:var(--kaizen-soft);stroke:var(--kaizen);stroke-width:1.8}
+.wa{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.8}
+.lf{fill:rgba(43,138,62,.16);stroke:var(--ok);stroke-width:1.8}
+.an-r{fill:var(--bad);stroke:var(--ink);stroke-width:1.2} .an-a{fill:var(--kaizen);stroke:var(--ink);stroke-width:1.2} .an-g{fill:var(--ok);stroke:var(--ink);stroke-width:1.2}
+.bf{fill:var(--bad)}
+.lbl-bg{fill:var(--canvas)}
 .tl-box{fill:var(--canvas);stroke:var(--ink);stroke-width:1.4}
 .node{cursor:move}
 #cv.linking .node{cursor:crosshair}
@@ -205,6 +222,42 @@ button{cursor:pointer}
 .q8 span{color:var(--muted)}
 .summary{display:flex;gap:6px;flex-wrap:wrap}
 
+/* État vide */
+.empty{position:absolute;inset:0 0 30px 0;display:grid;place-items:center;pointer-events:none;padding-left:16px;padding-right:16px}
+.empty-card{pointer-events:auto;max-width:440px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 26px 20px;box-shadow:0 10px 30px rgba(15,27,45,.08)}
+.empty-card svg{width:58px;height:58px}
+.empty-card h2{font:700 28px/1.05 var(--f-display);margin:12px 0 6px}
+.empty-card p{margin:0 0 16px;color:var(--muted);font-size:13.5px;line-height:1.55}
+.empty-card .row-btns{justify-content:center}
+.empty-tips{list-style:none;margin:16px 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--muted);text-align:left}
+/* Dialogue PDF */
+.dlg.wide{width:min(980px,100%)}
+.pdf-grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:18px;align-items:start}
+.pdf-form{display:flex;flex-direction:column;gap:8px}
+.pdf-form .fld{grid-template-columns:minmax(0,1fr) 220px}
+.geo2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chk{display:flex;gap:8px;align-items:center;font-size:12.5px}
+.pdf-prev{position:sticky;top:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pdf-sheet{background:#FFFFFF;border:1px solid var(--line);box-shadow:0 8px 24px rgba(15,27,45,.16);max-height:62vh;max-width:100%;margin:0 auto;width:100%}
+.pdf-sheet img{width:100%;height:100%;object-fit:contain;display:block}
+@media (max-width:760px){.pdf-grid{grid-template-columns:1fr}}
+/* Identité de marque */
+.brand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.concept{background:var(--canvas);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.concept.chosen{border:2px solid var(--accent)}
+.concept svg{width:72px;height:72px}
+.concept h3{margin:0}
+.concept p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+.concept .tagc{font:600 11px var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.sw{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas)}
+.sw i{display:block;height:58px}
+.sw div{padding:8px 10px;font-size:12.5px}
+.sw code{font:12px var(--f-mono);color:var(--muted)}
+.lockup{display:flex;flex-wrap:wrap;gap:14px;align-items:center;background:var(--canvas);border:1px solid var(--line);border-radius:10px;padding:18px}
+.lockup .word{font:500 40px/1 var(--f-display)} .lockup .word b{font-weight:700}
+.sizes{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.sizes figure{margin:0;text-align:center;font:500 11px var(--f-mono);color:var(--muted)}
 /* Modale */
 .modal{position:fixed;inset:0;background:rgba(10,14,20,.45);display:grid;place-items:center;z-index:60;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .dlg{background:var(--panel);border:1px solid var(--line);border-radius:12px;width:min(640px,100%);max-height:86vh;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.3)}
@@ -276,6 +329,7 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
 .checks li{break-inside:avoid;padding:6px 0 6px 24px;position:relative;font-size:13.5px;line-height:1.5;border-bottom:1px solid var(--line)}
 .checks li::before{content:"";position:absolute;left:2px;top:11px;width:11px;height:11px;border:1.6px solid var(--ok);border-radius:2px;background:linear-gradient(var(--ok),var(--ok)) center/5px 5px no-repeat}
 .checks li.todo::before{border-color:var(--muted);background:none}
+.leg-h{margin:18px 0 8px!important;font-size:16px!important}
 .legend-sym{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .legend-sym div{display:flex;align-items:center;gap:8px;background:var(--canvas);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px;min-width:0}
 .legend-sym svg{width:44px;height:30px;flex:none;overflow:visible}
@@ -295,8 +349,8 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
 <div id="app">
   <header class="topbar">
     <div class="brand" aria-label="Atelier VSM">
-      <svg viewBox="0 0 30 24" aria-hidden="true"><rect x="1" y="3" width="14" height="12" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="1" y1="7.5" x2="15" y2="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M23 6 L29 17 H17 Z" fill="none" stroke="var(--accent)" stroke-width="1.8"/><path d="M2 21 H27" stroke="currentColor" stroke-width="1.6"/><path d="M2 21 v-2 h7 v2" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-      <span>Atelier VSM</span>
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--brand)"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="var(--amber)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Atelier <b>VSM</b></span>
     </div>
     <nav class="nav" aria-label="Vues">
       <button id="nav-ed" data-view="editeur" aria-current="page">Éditeur</button>
@@ -305,7 +359,8 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
     <div class="top-actions">
       <button class="btn opt" id="btn-sample" title="Recharger la carte d'exemple">Exemple</button>
       <button class="btn opt" id="btn-new" title="Nouvelle carte vide">Nouveau</button>
-      <button class="btn" id="btn-io">Importer / Exporter</button>
+      <button class="btn" id="btn-io">Fichiers</button>
+      <button class="btn primary" id="btn-pdf" title="Exporter en PDF (Ctrl+P)">Exporter PDF</button>
     </div>
   </header>
 
@@ -359,6 +414,12 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
           <rect id="gridr" x="0" y="0" width="100%" height="100%" fill="url(#gp)"/>
           <g id="vp"><g id="L-zones"></g><g id="L-links"></g><g id="L-nodes"></g><g id="L-tl"></g><g id="L-ov"></g></g>
         </svg>
+        <div class="empty" id="empty" hidden><div class="empty-card"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--brand)"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="var(--amber)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h2>Nouvelle carte VSM</h2>
+          <p>Glissez un symbole depuis la palette, ou cliquez dessus pour l'insérer au centre. Les calculs (takt, délai, PCE) se mettent à jour à chaque saisie.</p>
+          <div class="row-btns"><button class="btn primary" data-empty="sample">Charger la carte d'exemple</button><button class="btn" data-empty="open" id="empty-open">Ouvrir un fichier .vsm</button></div>
+          <ul class="empty-tips"><li><kbd>Glisser</kbd> un symbole sur le plan : guides et équidistances s'affichent</li><li>Choisir un <b>flux</b> dans la palette, puis tirer d'un symbole à l'autre</li><li><kbd>Ctrl</kbd> + <kbd>P</kbd> : exporter en PDF (A4, A3… A0, US)</li></ul>
+        </div></div>
         <div class="modebar" id="modebar" hidden><span id="mode-txt"></span><button id="mode-x">Terminer</button></div>
         <div class="stage-bottom">
           <div id="pages"></div>
@@ -403,7 +464,7 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
         </figure>
       </div>
       <nav class="toc" aria-label="Sommaire">
-        <a href="#bs-vision">Vision</a><a href="#bs-users">Utilisateurs</a><a href="#bs-gap">On a · on veut · il manque</a><a href="#bs-gi">Génie industriel</a><a href="#bs-model">Modélisation</a><a href="#bs-formules">Formules</a><a href="#bs-symb">Symboles</a><a href="#bs-ux">Inspiration draw.io</a><a href="#bs-draw">Assistance dessin</a><a href="#bs-calc">Assistance calcul</a><a href="#bs-desktop">Desktop moderne</a><a href="#bs-archi">Architecture</a><a href="#bs-data">Modèle de données</a><a href="#bs-road">Feuille de route</a><a href="#bs-proto">Prototype</a>
+        <a href="#bs-vision">Vision</a><a href="#bs-users">Utilisateurs</a><a href="#bs-gap">On a · on veut · il manque</a><a href="#bs-gi">Génie industriel</a><a href="#bs-model">Modélisation</a><a href="#bs-formules">Formules</a><a href="#bs-brand">Identité</a><a href="#bs-symb">Symboles</a><a href="#bs-ux">Inspiration draw.io</a><a href="#bs-draw">Assistance dessin</a><a href="#bs-calc">Assistance calcul</a><a href="#bs-desktop">Desktop moderne</a><a href="#bs-archi">Architecture</a><a href="#bs-data">Modèle de données</a><a href="#bs-road">Feuille de route</a><a href="#bs-proto">Prototype</a>
       </nav>
 
       <section id="bs-vision">
@@ -521,10 +582,40 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
         </table></div>
       </section>
 
+
+      <section id="bs-brand">
+        <h2>Identité de marque</h2>
+        <p class="intro">Nouveau logo et système de marque. Quatre pistes explorées ; la piste « A-Takt » est retenue et appliquée à l'icône de l'application, à l'en-tête, aux cartouches PDF et à l'écran d'accueil.</p>
+        <div class="brand-grid">
+          <div class="concept chosen"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tagc">Retenu</span><h3>A-Takt</h3><p>Le triangle de stock, symbole le plus reconnu de la VSM, dessine le « A » d'Atelier. Sa barre est une ligne de temps : le créneau haut-bas de l'attente et de la valeur ajoutée.</p></div>
+          <div class="concept"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#17202B"/><rect x="6" y="9" width="12" height="10" fill="none" stroke="#FFFFFF" stroke-width="2"/><path d="M18 14 H26 M23 11 L26 14 L23 17" fill="none" stroke="#F5A524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24 H26" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/></svg><span class="tagc">Piste 2</span><h3>Flux poussé</h3><p>Boîte processus et flèche de flux. Clair, mais proche des icônes génériques de diagramme.</p></div>
+          <div class="concept"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#F5A524"/><polygon points="16,4 18.6,11 26,9.5 21.5,15.5 27,21 19.5,21 16,28 12.5,21 5,21 10.5,15.5 6,9.5 13.4,11" fill="#17202B"/><circle cx="16" cy="16" r="3.2" fill="#F5A524"/></svg><span class="tagc">Piste 3</span><h3>Éclair kaizen</h3><p>L'amélioration continue. Fort en couleur, mais le symbole parle d'action plutôt que de cartographie.</p></div>
+          <div class="concept"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#E9EDF5"/><path d="M23 7 H9 V25 H23 M9 13 H23 M9 19 H23" fill="none" stroke="#2448D8" stroke-width="2.4" stroke-linecap="round"/></svg><span class="tagc">Piste 4</span><h3>Supermarché</h3><p>Les étagères du supermarché forment un « E ». Élégant, mais peu lisible en 16 px.</p></div>
+        </div>
+        <h3 style="margin-top:22px">Logotype</h3>
+        <div class="lockup"><svg viewBox="0 0 32 32" width="64" height="64" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="word">Atelier <b>VSM</b></span>
+          <div class="sizes" style="margin-left:auto"><figure><svg viewBox="0 0 32 32" width="16" height="16"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><figcaption>16 px</figcaption></figure><figure><svg viewBox="0 0 32 32" width="24" height="24"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><figcaption>24 px</figcaption></figure><figure><svg viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><figcaption>32 px</figcaption></figure><figure><svg viewBox="0 0 32 32" width="48" height="48"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><figcaption>48 px</figcaption></figure></div></div>
+        <h3 style="margin-top:22px">Couleurs</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#2448D8"></i><div><b>Bleu cobalt</b><br><code>#2448D8</code><br>Marque, sélection, actions</div></div>
+          <div class="sw"><i style="background:#F5A524"></i><div><b>Ambre takt</b><br><code>#F5A524</code><br>Ligne de temps, kaizen</div></div>
+          <div class="sw"><i style="background:#17202B"></i><div><b>Encre</b><br><code>#17202B</code><br>Symboles et texte</div></div>
+          <div class="sw"><i style="background:#5A6573"></i><div><b>Acier</b><br><code>#5A6573</code><br>Libellés secondaires</div></div>
+          <div class="sw"><i style="background:#E8EBEE"></i><div><b>Atelier</b><br><code>#E8EBEE</code><br>Fond de l'interface</div></div>
+          <div class="sw"><i style="background:#D6336C"></i><div><b>Guide magenta</b><br><code>#D6336C</code><br>Guides, cotes</div></div>
+        </div>
+        <h3 style="margin-top:22px">Typographie</h3>
+        <div class="tblw"><table><thead><tr><th>Rôle</th><th>Police</th><th>Exemple</th></tr></thead><tbody>
+          <tr><td>Titres, libellés de symboles</td><td>Barlow Condensed 500–700</td><td style="font:700 22px var(--f-display)">CONTRÔLE DE PRODUCTION</td></tr>
+          <tr><td>Texte courant, noms</td><td>IBM Plex Sans 400–600</td><td>Soudage Poste 1 · Planning hebdomadaire</td></tr>
+          <tr><td>Données, cotes, indicateurs</td><td>IBM Plex Mono 400–500</td><td style="font-family:var(--f-mono)">C/T 39 s · LT 16,3 j · PCE 0,021 %</td></tr>
+        </tbody></table></div>
+        <p class="note" style="margin-top:10px">Règles : zone de protection autour du symbole égale à la hauteur de la barre takt ; taille minimale 16 px ; ne jamais remplir le triangle ni changer l'ordre des couleurs (cobalt, blanc, ambre).</p>
+      </section>
       <section id="bs-symb">
-        <h2>Bibliothèque de symboles personnalisés</h2>
-        <p class="intro">Tous les symboles de l'éditeur sont dessinés à la main en SVG, à l'échelle, avec leurs données. Ils suivent le thème clair ou sombre.</p>
-        <div class="legend-sym" id="legend"></div>
+        <h2>Bibliothèque de symboles <small><span id="sym-count"></span> symboles et flux</small></h2>
+        <p class="intro">Symboles officiels de <i>Learning to See</i> (Rother &amp; Shook) et de <i>Seeing the Whole</i>, complétés par les extensions sectorielles reconnues : VSM bureau (Keyte &amp; Locher), VSM clinique (Jackson), VSM logiciel (%C&amp;A), VSM durable (EPA Lean &amp; Environment). Tous redessinés à la main en SVG, à l'échelle, avec leurs données.</p>
+        <div id="legend"></div>
       </section>
 
       <section id="bs-ux">
@@ -591,7 +682,7 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
           <li class="todo">Chronomètre intégré pour relever les C/T sur le terrain</li>
           <li class="todo">Mode présentation pour la revue de l'état futur</li>
           <li class="todo">Impression grand format A3/A0 en mosaïque</li>
-          <li>Export SVG et JSON ; PNG, PDF et Excel à venir</li>
+          <li>Export PDF vectoriel (A5 à A0, B, US, ANSI, Arch, mosaïque), SVG, CSV et JSON</li>
           <li>Thèmes clair et sombre</li>
           <li>Navigation complète au clavier</li>
           <li class="todo">Multilingue (FR, EN, ES, DE, AR)</li>
@@ -655,7 +746,7 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
       <section id="bs-proto">
         <h2>Ce que fait déjà le prototype</h2>
         <div class="cards">
-          <div class="card"><h3>Édition</h3><p>24 symboles SVG faits main, 5 types de flux, glisser-déposer depuis la palette, sélection multiple au rectangle, redimensionnement, copier/coller, annuler/rétablir, pages actuel/futur, sauvegarde locale automatique.</p></div>
+          <div class="card"><h3>Édition</h3><p>Plus de 80 symboles SVG faits main en 10 familles, 6 types de flux, glisser-déposer depuis la palette, sélection multiple au rectangle, redimensionnement, copier/coller, annuler/rétablir, pages actuel/futur, sauvegarde locale automatique.</p></div>
           <div class="card"><h3>Mesure</h3><p>Guides d'alignement, détection et reproduction des équidistances avec cotes, magnétisme grille, alignement et répartition, mise en page VSM automatique, géométrie au pixel.</p></div>
           <div class="card"><h3>Calcul</h3><p>Takt, couverture des stocks, ligne de temps, LT, VA, PCE, WIP, opérateurs théoriques, capacité et charge par poste, équilibrage, comparaison entre états, diagnostic et 8 questions.</p></div>
         </div>
@@ -671,7 +762,7 @@ kbd{font:500 11.5px var(--f-mono);border:1px solid var(--line);border-bottom-wid
 (()=>{
 'use strict';
 const $=s=>document.querySelector(s);
-const KEY='atelier-vsm-v1';
+const KEY='atelier-vsm-v2';
 const uid=()=>Math.random().toString(36).slice(2,9);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
@@ -699,16 +790,28 @@ function drawProcess(n,c,shared){
   s+=`<text class="tx" x="${w/2}" y="15.5" text-anchor="middle">${esc(cut(p.name,17))}</text>`;
   s+=`<g transform="translate(9 27) scale(.75)">${OPI}</g><text class="tm" x="34" y="47">× ${fmt(p.op)}</text>`;
   s+=`<text class="tl" x="${w-8}" y="47" text-anchor="end">${fmt(p.shifts)} POSTE${num(p.shifts)>1?'S':''}</text>`;
-  const rows=[['C/T',fmt(ct)+' s',over?'bad':risk?'warn':''],['C/O',fmt(p.co)+' min'],['Dispo',fmt(up)+' %'],['Lot',fmt(p.batch)+' p'],['Rebut',fmt(p.scrap)+' %']];
+  const V=(v,u)=>v===''||v==null?'—':fmt(v)+u;
+  const rows=[['C/T',V(p.ct,' s'),over?'bad':risk?'warn':''],['C/O',V(p.co,' min')],['Dispo',V(p.up,' %')],['Lot',V(p.batch,' p')],['Rebut',V(p.scrap,' %')]];
   const y0=62;
   s+=`<rect class="sh" x=".8" y="${y0}" width="${w-1.6}" height="${rows.length*15+8}"/>`;
   rows.forEach((r,i)=>{const y=y0+16+i*15;if(r[2])s+=`<rect class="row-${r[2]}" x="2.5" y="${y-11}" width="${w-5}" height="14"/>`;s+=`<text class="tm" x="8" y="${y}">${r[0]}</text><text class="tm" x="${w-8}" y="${y}" text-anchor="end">${r[1]}</text>`});
   if(over) s+=tag(w,isB?'GOULOT':'> TAKT','bad'); else if(risk) s+=tag(w,'RISQUE','warn');
   return s;
 }
-const procFields=[['name','Nom','text'],['ct','Temps de cycle C/T','num','s'],['co','Changement de série C/O','num','min'],['up','Disponibilité','num','%'],['op','Opérateurs','num',''],['shifts','Postes','num',''],['batch','Taille de lot','num','p'],['scrap','Rebut','num','%']];
-const procD={name:'Processus',ct:40,co:30,up:90,op:1,shifts:2,batch:1,scrap:0};
-const invLabels=(n,c,yq)=>{const d=c.daily>0?num(n.props.qty)/c.daily:0;return below(n.w,yq,fmt(n.props.qty,0)+' p')+below(n.w,yq+12,fmt(d,1)+' j','tmu')+(n.props.name?`<text class="tl" x="${n.w/2}" y="${yq+24}" text-anchor="middle">${esc(cut(n.props.name,18)).toUpperCase()}</text>`:'')};
+const procFields=[['name','Nom','text'],['ct','Temps de cycle C/T','num','s'],['co','Changement de série C/O','num','min'],['up','Disponibilité','num','%'],['op','Opérateurs','num',''],['shifts','Postes','num',''],['batch','Taille de lot','num','p'],['scrap','Rebut','num','%'],['ca','% complet et exact (%C&A)','num','%']];
+const procD={name:'Processus',ct:40,co:30,up:90,op:1,shifts:2,batch:1,scrap:0,ca:100};
+/* Quantité effective : quantité saisie, ou couverture saisie en jours × demande journalière */
+const covOnly=n=>(n.props.qty===''||n.props.qty==null||num(n.props.qty)===0)&&num(n.props.cov)>0;
+const qtyOf=(n,daily)=>covOnly(n)?num(n.props.cov)*(daily||0):num(n.props.qty);
+/* Répartition par référence (ex. « G=4600; D=2400 ») : affichée séparément, jamais additionnée à l'écran */
+function parseSplit(t){return String(t||'').split(/[;\n]+/).map(x=>x.trim()).filter(Boolean).map(x=>{const m=x.match(/^(.*?)\s*[=:]\s*([\d\s.,]+)$/);return m?{k:m[1].trim(),v:num(m[2].replace(/\s/g,''))}:null}).filter(Boolean)}
+function syncSplit(n){const sp=parseSplit(n.props.split);if(sp.length)n.props.qty=sp.reduce((a,b)=>a+b.v,0)}
+const invLabels=(n,c,yq)=>{const d=c.daily>0?qtyOf(n,c.daily)/c.daily:0,sp=parseSplit(n.props.split);
+  if(sp.length){let s=`<text class="tmu" x="${n.w/2}" y="${yq}" text-anchor="middle">${fmt(d,1)} j</text>`;
+    sp.slice().reverse().forEach((r,i)=>{const t=`${r.k} : ${fmt(r.v,0)}`,tw=t.length*6.4+6;s+=`<rect class="lbl-bg" x="${r1(n.w/2-tw/2)}" y="${-16-i*12}" width="${r1(tw)}" height="12" rx="2"/><text class="tm" x="${n.w/2}" y="${-6-i*12}" text-anchor="middle">${esc(t)}</text>`});
+    return s+(n.props.name?`<text class="tl" x="${n.w/2}" y="${-6-sp.length*12}" text-anchor="middle">${esc(cut(n.props.name,18)).toUpperCase()}</text>`:'')}
+  if(covOnly(n))return `<text class="tm" x="${n.w/2}" y="${yq}" text-anchor="middle">${fmt(d,1)} j</text>`+(n.props.name?`<text class="tl" x="${n.w/2}" y="${-6}" text-anchor="middle">${esc(cut(n.props.name,18)).toUpperCase()}</text>`:'');
+  return `<text class="tm" x="${n.w/2}" y="${yq}" text-anchor="middle">${fmt(n.props.qty,0)} p<tspan class="tmu">&#160;· ${fmt(d,1)} j</tspan></text>`+(n.props.name?`<text class="tl" x="${n.w/2}" y="${-6}" text-anchor="middle">${esc(cut(n.props.name,18)).toUpperCase()}</text>`:'')};
 
 const T={};
 const CATS=[['mat','Flux matière'],['info','Flux d\'information'],['pull','Flux tiré et kanban'],['gen','Général']];
@@ -722,11 +825,13 @@ def('customer',{cat:'mat',label:'Client',w:120,h:140,d:{name:'Client'},f:[['name
     const rows=[[fmt(P.demand,0)+' p/mois'],[fmt(P.days,0)+' j · '+fmt(P.shifts,0)+' postes'],['Takt '+fmt(c.takt,1)+' s']];
     rows.forEach((r,i)=>s+=`<text class="tm" x="8" y="${105+i*14}">${r[0]}</text>`);return s}});
 def('process',{cat:'mat',label:'Processus',w:130,h:145,d:procD,f:procFields,port:n=>({x:0,y:0,w:n.w,h:56}),draw:(n,c)=>drawProcess(n,c,false)});
+def('shipping',{cat:'proc',label:'Expédition (poste)',w:130,h:145,d:{name:'Expédition',note:''},f:[['name','Nom','text'],['note','Note','text']],port:n=>({x:0,y:0,w:n.w,h:56}),
+  draw:n=>`<rect class="sh" x=".8" y=".8" width="${n.w-1.6}" height="55.2"/><line class="ln" x1=".8" y1="22" x2="${n.w-.8}" y2="22"/><text class="tx" x="${n.w/2}" y="15.5" text-anchor="middle">${esc(cut(n.props.name,17))}</text><rect class="sh" x=".8" y="62" width="${n.w-1.6}" height="${n.h-62.8}"/>`+(n.props.note?`<text class="tmu" x="8" y="80">${esc(cut(n.props.note,20))}</text>`:'')});
 def('shared',{cat:'mat',label:'Processus partagé',w:130,h:145,d:Object.assign({},procD,{name:'Partagé'}),f:procFields,port:n=>({x:0,y:0,w:n.w,h:56}),draw:(n,c)=>drawProcess(n,c,true)});
-def('inventory',{cat:'mat',label:'Stock',w:50,h:44,d:{qty:1000,name:''},f:[['qty','Quantité','num','p'],['name','Libellé','text']],
-  draw:(n,c)=>`<path class="sh" d="M25 2 L48 42 H2 Z" stroke-linejoin="round"/><text class="tx" x="25" y="37" text-anchor="middle" style="font-size:14px">I</text>`+invLabels(n,c,58)});
-def('supermarket',{cat:'mat',label:'Supermarché',w:46,h:50,d:{qty:500,name:''},f:[['qty','Quantité','num','p'],['name','Libellé','text']],
-  draw:(n,c)=>`<rect class="hitr" width="46" height="50"/><path class="ln" d="M3 2 H44 V48 H3 M3 17.3 H44 M3 32.6 H44" stroke-width="1.8"/>`+invLabels(n,c,64)});
+def('inventory',{cat:'mat',label:'Stock',w:50,h:44,d:{qty:1000,name:'',split:''},f:[['qty','Quantité totale','num','p'],['cov','Ou couverture saisie (si quantité vide)','num','j'],['split','Répartition par référence (G=4600; D=2400)','text'],['name','Libellé','text']],
+  draw:(n,c)=>`<path class="sh" d="M25 2 L48 42 H2 Z" stroke-linejoin="round"/><text class="tx" x="25" y="37" text-anchor="middle" style="font-size:14px">I</text>`+invLabels(n,c,57)});
+def('supermarket',{cat:'mat',label:'Supermarché',w:46,h:50,d:{qty:500,name:'',split:''},f:[['qty','Quantité totale','num','p'],['cov','Ou couverture saisie (si quantité vide)','num','j'],['split','Répartition par référence (G=4600; D=2400)','text'],['name','Libellé','text']],
+  draw:(n,c)=>`<rect class="hitr" width="46" height="50"/><path class="ln" d="M3 2 H44 V48 H3 M3 17.3 H44 M3 32.6 H44" stroke-width="1.8"/>`+invLabels(n,c,63)});
 def('fifo',{cat:'mat',label:'Couloir FIFO',w:110,h:34,d:{qty:20,name:''},f:[['qty','Capacité max','num','p'],['name','Libellé','text']],
   draw:(n,c)=>`<line class="ln" x1="2" y1="3" x2="${n.w-2}" y2="3"/><line class="ln" x1="2" y1="31" x2="${n.w-2}" y2="31"/><text class="tx" x="${n.w/2}" y="21" text-anchor="middle" style="letter-spacing:.12em">FIFO</text><path class="fi" d="M${n.w/2+24} 14 l7 3.5 -7 3.5z"/><path class="ln" d="M${n.w/2-30} 17.5 h-12"/>`+below(n.w,46,'max '+fmt(n.props.qty,0)+' p')+below(n.w,58,fmt(c.daily>0?num(n.props.qty)/c.daily:0,2)+' j','tmu')});
 def('buffer',{cat:'mat',label:'Stock tampon / sécurité',w:40,h:46,d:{qty:200,name:'Sécurité'},f:[['qty','Quantité','num','p'],['name','Type','text']],
@@ -758,12 +863,109 @@ def('text',{cat:'gen',label:'Texte',w:160,h:26,resizable:true,d:{text:'Note'},f:
 def('zone',{cat:'gen',label:'Boucle / zone',w:320,h:200,resizable:true,d:{name:'Boucle'},f:[['name','Nom de la boucle','text']],
   draw:n=>`<rect class="zone" x="1" y="1" width="${n.w-2}" height="${n.h-2}" rx="12"/><text class="tl" x="14" y="18">${esc(n.props.name).toUpperCase()}</text>`});
 
+
+/* ---------- Bibliothèque étendue : symboles VSM de toutes les industries ----------
+   Sources : Learning to See (Rother & Shook), Seeing the Whole (Jones & Womack),
+   stencils VSM de Visio / Lucid / Edraw, VSM bureau (Keyte & Locher), VSM clinique
+   (Jackson), Lean & Environment Toolkit (EPA), VSM logiciel (%C&A). */
+const lab=(n,y)=>n.props.name?`<text class="tl" x="${n.w/2}" y="${y}" text-anchor="middle">${esc(cut(n.props.name,24)).toUpperCase()}</text>`:'';
+function sym(type,cat,label,w,h,body,o={}){def(type,Object.assign({cat,label,w,h,d:Object.assign({name:o.name||''},o.d||{}),f:[['name','Libellé','text']].concat(o.f||[]),draw:(n,c)=>body(n,c)+(o.inLabel?'':lab(n,h+12))},o.x||{}))}
+function gear(cx,cy,r,t){const p=[];for(let i=0;i<t*4;i++){const a=i*Math.PI*2/(t*4)-Math.PI/2,rr=(i%4<2)?r:r*.76;p.push(r1(cx+Math.cos(a)*rr)+','+r1(cy+Math.sin(a)*rr))}return `<polygon class="sh" points="${p.join(' ')}" stroke-linejoin="round"/><circle class="sh" cx="${cx}" cy="${cy}" r="${r1(r*.32)}"/>`}
+function arcHead(cx,cy,r,a0,a1){const P=a=>[cx+Math.cos(a)*r,cy+Math.sin(a)*r];const [x0,y0]=P(a0),[x1,y1]=P(a1);const tx=-Math.sin(a1),ty=Math.cos(a1);return `<path class="ln" d="M${r1(x0)} ${r1(y0)} A${r} ${r} 0 0 1 ${r1(x1)} ${r1(y1)}" stroke-width="2.2"/><path class="fi" d="M${r1(x1+tx*6)} ${r1(y1+ty*6)} L${r1(x1-ty*4.5)} ${r1(y1+tx*4.5)} L${r1(x1+ty*4.5)} ${r1(y1-tx*4.5)} Z"/>`}
+const TRUCK=(dx,cls)=>`<g transform="translate(${dx} 0)"><rect class="sh" x="2" y="6" width="52" height="28"/><path class="sh" d="M54 13 H70 L81 24 V34 H54 Z"/><path class="ln" d="M60 17 H69 L75 24 H60 Z" stroke-width="1.2"/><circle class="fi" cx="16" cy="38" r="6"/><circle class="fi" cx="68" cy="38" r="6"/>${cls||''}</g>`;
+const PERSON=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><circle class="sh" cx="15" cy="8" r="7"/><path class="sh" d="M2 40 V28 Q2 18 15 18 Q28 18 28 28 V40 Z"/></g>`;
+
+/* Processus et acteurs */
+sym('workcell','proc','Cellule de travail',120,70,n=>`<rect class="hitr" width="${n.w}" height="${n.h}"/><path class="ln" d="M12 8 V60 H108 V8" stroke-width="5" stroke-linejoin="round"/><path class="ln" d="M30 18 V44 Q30 50 36 50 H84 Q90 50 90 44 V22" stroke-width="1.4"/><path class="fi" d="M86 24 L90 16 L94 24 Z"/><text class="tx" x="60" y="34" text-anchor="middle">${esc(cut(n.props.name,14))}</text>`,{name:'Cellule',inLabel:true,x:{resizable:false}});
+
+/* Stocks et matière */
+sym('batch','mat','Lot / palette',54,40,()=>`<rect class="sh" x="5" y="5" width="21" height="13"/><rect class="sh" x="28" y="5" width="21" height="13"/><rect class="sh" x="5" y="19" width="21" height="13"/><rect class="sh" x="28" y="19" width="21" height="13"/><path class="ln" d="M2 33 H52 M2 38 H52 M6 33 V38 M27 33 V38 M48 33 V38"/>`);
+sym('container','mat','Bac / contenant',50,34,()=>`<path class="sh" d="M3 6 H47 L42 31 H8 Z" stroke-linejoin="round"/><path class="ln" d="M3 6 H47" stroke-width="2.6"/><rect class="sh" x="18" y="12" width="14" height="5" rx="2.5"/>`);
+sym('coil','mat','Bobine / matière première',44,44,()=>`<circle class="sh" cx="22" cy="22" r="19"/><circle class="ln" cx="22" cy="22" r="13.5" stroke-width="1"/><circle class="sh" cx="22" cy="22" r="7"/>`);
+
+/* Transport et logistique */
+sym('hotshot','log','Transport express',92,46,()=>`<path class="ln" d="M1 12 H9 M3 20 H9 M1 28 H9"/>`+TRUCK(9,`<path class="fi" d="M33 8 L22 22 H29 L25 32 L38 16 H31 Z"/>`),{name:'Express'});
+sym('train','log','Transport ferroviaire',92,44,()=>`<rect class="sh" x="2" y="10" width="36" height="22"/><path class="ln" d="M8 16 H32 M8 22 H32" stroke-width="1"/><path class="sh" d="M42 32 V12 H66 V6 H74 V12 L86 22 V32 Z" stroke-linejoin="round"/><path class="ln" d="M38 27 H42"/><circle class="sh" cx="11" cy="36" r="4"/><circle class="sh" cx="29" cy="36" r="4"/><circle class="sh" cx="52" cy="36" r="4"/><circle class="sh" cx="76" cy="36" r="4"/><path class="ln" d="M0 42 H92" stroke-width="1.2"/>`);
+sym('plane','log','Fret aérien',72,44,()=>`<path class="sh" d="M28 18 L41 3 H47 L41 18 Z M28 26 L41 41 H47 L41 26 Z M8 18 L4 8 H10 L17 18 Z" stroke-linejoin="round"/><path class="sh" d="M4 22 Q4 18 10 18 H56 Q68 18 70 22 Q68 26 56 26 H10 Q4 26 4 22 Z"/>`);
+sym('ship','log','Transport maritime',80,46,()=>`<rect class="sh" x="16" y="14" width="14" height="12"/><rect class="sh" x="31" y="14" width="14" height="12"/><rect class="sh" x="46" y="6" width="14" height="20"/><path class="sh" d="M3 26 H77 L67 40 H12 Z" stroke-linejoin="round"/><path class="ln" d="M2 45 Q8 41 14 45 T26 45 T38 45 T50 45 T62 45 T74 45" stroke-width="1"/>`);
+sym('forklift','log','Chariot élévateur',64,46,()=>`<rect class="sh" x="47" y="21" width="15" height="14"/><path class="ln" d="M44 3 V40 M44 37 H62" stroke-width="2.6"/><path class="sh" d="M10 14 H30 L38 26 V36 H10 Z" stroke-linejoin="round"/><path class="ln" d="M12 14 V4 H28 L30 14"/><circle class="fi" cx="18" cy="39" r="6"/><circle class="fi" cx="34" cy="39" r="5"/>`);
+sym('milkrun','log','Tournée (milk run)',62,46,()=>`<rect class="ln" x="6" y="6" width="50" height="34" rx="17" stroke-width="1.8"/><path class="fi" d="M36 1.5 L44 6 L36 10.5 Z"/><circle class="sh" cx="6" cy="23" r="4.5"/><circle class="sh" cx="31" cy="40" r="4.5"/><circle class="sh" cx="56" cy="23" r="4.5"/>`);
+sym('warehouse','log','Entrepôt',70,52,()=>`<path class="sh" d="M3 20 L35 3 L67 20 V50 H3 Z" stroke-linejoin="round"/><rect class="sh" x="23" y="28" width="24" height="22"/><path class="ln" d="M23 33.5 H47 M23 39 H47 M23 44.5 H47" stroke-width="1"/>`);
+sym('crossdock','log','Cross-dock',76,48,()=>`<rect class="sh" x="18" y="6" width="40" height="36"/><path class="ln" d="M18 6 L38 0 L58 6" stroke-width="1.2"/><path class="ln" d="M2 17 H66 M2 31 H66" stroke-width="1.8"/><path class="fi" d="M66 12.5 L74 17 L66 21.5 Z M66 26.5 L74 31 L66 35.5 Z"/>`);
+
+/* Information et pilotage */
+sym('erp','info','Système informatique (ERP / MES / WMS)',60,50,n=>`<rect class="sh" x="4" y="3" width="52" height="34" rx="2"/><path class="ln" d="M24 37 L22 46 H38 L36 37 M15 46 H45"/><text class="ix" x="30" y="25" text-anchor="middle">${esc(cut(n.props.name||'ERP',8))}</text>`,{name:'ERP',inLabel:true});
+sym('database','info','Base de données',44,50,()=>`<path class="sh" d="M4 9 V41 A18 6 0 0 0 40 41 V9"/><ellipse class="sh" cx="22" cy="9" rx="18" ry="6"/><path class="ln" d="M4 20 A18 6 0 0 0 40 20 M4 31 A18 6 0 0 0 40 31" stroke-width="1"/>`);
+sym('phone','info','Téléphone',46,42,()=>`<path class="sh" d="M10 3 L16 12 Q17 15 14 17 L12 18 Q16 27 26 31 L28 28 Q30 26 33 27 L42 33 Q44 35 42 38 L39 41 Q34 43 24 38 Q8 30 4 14 Q3 8 6 5 Z" stroke-linejoin="round"/>`);
+sym('orders','info','Commandes',40,48,()=>`<path class="sh" d="M4 2 H28 L36 10 V46 H4 Z" stroke-linejoin="round"/><path class="ln" d="M28 2 V10 H36 M10 19 H30 M10 26 H30 M10 33 H22" stroke-width="1.2"/>`);
+sym('schedule','info','Planning / programme',46,44,()=>`<rect class="sh" x="3" y="7" width="40" height="34" rx="2"/><path class="ln" d="M3 16 H43 M13 3 V11 M33 3 V11" stroke-width="1.8"/>`+[0,1,2,3].map(i=>[0,1,2].map(j=>`<rect class="fi" x="${8+i*9}" y="${21+j*6.5}" width="5" height="3.5"/>`).join('')).join(''));
+sym('forecast','info','Prévisions',50,42,()=>`<path class="ln" d="M5 3 V38 H47"/><path class="ln" d="M9 31 L20 23 L29 27 L42 11" stroke-dasharray="4 3" stroke-width="1.8"/><path class="fi" d="M45 7 L35 10 L41 16 Z"/>`);
+sym('board','info','Tableau visuel / obeya',58,48,()=>`<rect class="sh" x="3" y="3" width="52" height="32"/><path class="ln" d="M20 3 V35 M38 3 V35 M3 12 H55" stroke-width="1"/><rect class="kz" x="6" y="15" width="10" height="7"/><rect class="kz" x="24" y="24" width="10" height="7"/><rect class="kz" x="41" y="15" width="10" height="7"/><path class="ln" d="M14 35 L8 46 M44 35 L50 46"/>`);
+sym('andon','info','Andon',30,54,()=>`<rect class="an-r" x="9" y="2" width="12" height="9" rx="2"/><rect class="an-a" x="9" y="11" width="12" height="9"/><rect class="an-g" x="9" y="20" width="12" height="9" rx="2"/><path class="ln" d="M15 29 V50 M6 50 H24"/>`);
+sym('verbalicon','info','Information verbale',46,40,()=>`<path class="sh" d="M7 4 H39 Q44 4 44 9 V25 Q44 30 39 30 H18 L9 38 L11 30 H7 Q2 30 2 25 V9 Q2 4 7 4 Z" stroke-linejoin="round"/><path class="ln" d="M10 13 H36 M10 20 H28" stroke-width="1.2"/>`);
+sym('email','info','Courriel',50,36,()=>`<rect class="sh" x="3" y="3" width="44" height="30" rx="2"/><path class="ln" d="M4 5 L25 21 L46 5" stroke-linejoin="round"/>`);
+sym('fax','info','Fax',50,44,()=>`<path class="sh" d="M12 20 V3 H38 V20"/><path class="ln" d="M17 9 H33 M17 14 H29" stroke-width="1"/><rect class="sh" x="3" y="18" width="44" height="22" rx="2"/><rect class="ln" x="9" y="24" width="18" height="10" stroke-width="1"/><circle class="fi" cx="34" cy="27" r="1.8"/><circle class="fi" cx="40" cy="27" r="1.8"/><circle class="fi" cx="34" cy="33" r="1.8"/><circle class="fi" cx="40" cy="33" r="1.8"/>`);
+
+/* Bureau et services (VSM transactionnel) */
+sym('department','office','Service / département',120,56,n=>`<rect class="sh" x=".8" y=".8" width="${n.w-1.6}" height="${n.h-1.6}" rx="6"/><line class="ln" x1=".8" y1="20" x2="${n.w-.8}" y2="20"/><text class="tl" x="${n.w/2}" y="14.5" text-anchor="middle">SERVICE</text><text class="tx" x="${n.w/2}" y="41" text-anchor="middle">${esc(cut(n.props.name,18))}</text>`,{name:'Achats',inLabel:true,x:{resizable:true}});
+sym('document','office','Document / formulaire',38,46,()=>`<path class="sh" d="M3 3 H35 V38 Q27 32 19 38 T3 38 Z" stroke-linejoin="round"/><path class="ln" d="M9 12 H29 M9 19 H29 M9 26 H22" stroke-width="1.2"/>`);
+sym('folder','office','Dossier',48,38,()=>`<path class="sh" d="M3 8 V35 H45 V12 H22 L18 6 H5 Q3 6 3 8 Z" stroke-linejoin="round"/><path class="ln" d="M3 16 H45" stroke-width="1"/>`);
+sym('inbox','office','File d\'attente (bannette)',52,40,()=>`<rect class="sh" x="12" y="3" width="28" height="18"/><rect class="sh" x="9" y="8" width="34" height="14"/><path class="sh" d="M3 18 H15 L19 26 H33 L37 18 H49 V37 H3 Z" stroke-linejoin="round"/>`);
+sym('approval','office','Validation / signature',44,44,()=>`<circle class="sh" cx="22" cy="22" r="19"/><path class="ln" d="M12 23 L19 30 L33 14" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`);
+sym('meeting','office','Réunion',62,46,()=>`<circle class="sh" cx="12" cy="13" r="5.5"/><circle class="sh" cx="31" cy="8" r="5.5"/><circle class="sh" cx="50" cy="13" r="5.5"/><ellipse class="sh" cx="31" cy="33" rx="25" ry="10"/>`);
+sym('decision','office','Décision',56,40,()=>`<path class="sh" d="M28 2 L54 20 L28 38 L2 20 Z" stroke-linejoin="round"/><text class="ix" x="28" y="26" text-anchor="middle">?</text>`);
+
+/* Santé et hôpital (VSM clinique) */
+sym('patient','health','Patient',36,44,()=>PERSON(3,2)+`<path class="ln" d="M10 34 H26" stroke-width="1"/><rect class="bf" x="23" y="29" width="6" height="3" rx="1"/>`);
+sym('clinician','health','Soignant / médecin',36,44,()=>PERSON(3,2)+`<path class="bf" d="M20 27 h4 v-4 h3 v4 h4 v3 h-4 v4 h-3 v-4 h-4z"/>`);
+sym('bed','health','Lit d\'hospitalisation',64,40,()=>`<path class="ln" d="M4 5 V37 M60 21 V37 M4 27 H60" stroke-width="2.2"/><rect class="sh" x="8" y="16" width="14" height="9" rx="3"/><path class="sh" d="M24 27 V18 H55 Q60 18 60 23 V27 Z"/>`);
+sym('waiting','health','Salle d\'attente',66,40,()=>[0,1,2].map(i=>`<path class="ln" d="M${6+i*20} 5 V24 H${20+i*20} V37 M${6+i*20} 24 V37" stroke-width="2"/>`).join(''));
+sym('lab','health','Laboratoire / analyses',40,46,()=>`<path class="lq" d="M9.5 30 H30.5 L35.5 40 Q36.5 43 32 43 H8 Q3.5 43 4.5 40 Z"/><path class="ln" d="M13 3 H27 M16 3 V16 L4 40 Q3 44 8 44 H32 Q37 44 36 40 L24 16 V3" stroke-linejoin="round"/>`);
+sym('pharma','health','Médicament / ordonnance',52,30,()=>`<g transform="rotate(-20 26 15)"><rect class="sh" x="4" y="7" width="44" height="16" rx="8"/><path class="lq" d="M26 7.8 H40 A7.2 7.2 0 0 1 40 22.2 H26 Z"/><line class="ln" x1="26" y1="7" x2="26" y2="23"/></g>`);
+sym('ambulance','health','Ambulance',84,46,()=>TRUCK(0,`<path class="bf" d="M22 13 h6 v-5 h5 v5 h6 v5 h-6 v5 h-5 v-5 h-6z"/>`));
+sym('imaging','health','Imagerie (scanner, IRM)',58,46,()=>`<circle class="sh" cx="22" cy="20" r="18"/><circle class="sh" cx="22" cy="20" r="8"/><path class="sh" d="M8 40 H56 V45 H8 Z"/><path class="ln" d="M22 28 V40"/>`);
+
+/* Logiciel et DevOps */
+sym('backlog','soft','Backlog',48,44,()=>`<rect class="sh" x="12" y="3" width="32" height="20" rx="2"/><rect class="sh" x="8" y="10" width="32" height="20" rx="2"/><rect class="sh" x="4" y="17" width="32" height="20" rx="2"/><path class="ln" d="M9 24 H29 M9 30 H22" stroke-width="1.2"/>`);
+sym('code','soft','Développement',54,40,()=>`<rect class="sh" x="3" y="3" width="48" height="34" rx="3"/><path class="ln" d="M3 11 H51" stroke-width="1"/><text class="ix" x="27" y="31" text-anchor="middle">&lt;/&gt;</text>`);
+sym('build','soft','Intégration continue (build)',46,46,()=>gear(23,23,20,8));
+sym('test','soft','Tests automatisés',44,46,()=>`<path class="sh" d="M22 3 L40 9 V22 Q40 36 22 43 Q4 36 4 22 V9 Z" stroke-linejoin="round"/><path class="ln" d="M13 23 L20 30 L32 16" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`);
+sym('review','soft','Revue de code',50,46,()=>`<path class="sh" d="M3 3 H27 L33 9 V40 H3 Z" stroke-linejoin="round"/><path class="ln" d="M9 13 H25 M9 19 H21" stroke-width="1.2"/><circle class="sh" cx="31" cy="27" r="9"/><path class="ln" d="M37.5 33.5 L46 42" stroke-width="3" stroke-linecap="round"/>`);
+sym('deploy','soft','Déploiement / mise en production',40,52,()=>`<path class="kz" d="M14 37 L20 50 L26 37 Z"/><path class="sh" d="M10 27 L3 40 L11 35 Z M30 27 L37 40 L29 35 Z" stroke-linejoin="round"/><path class="sh" d="M20 2 Q33 12 30 36 H10 Q7 12 20 2 Z"/><circle class="sh" cx="20" cy="18" r="5"/>`);
+sym('server','soft','Environnement / serveur',44,48,()=>[0,1,2].map(i=>`<rect class="sh" x="4" y="${3+i*14}" width="36" height="12" rx="2"/><circle class="fi" cx="11" cy="${9+i*14}" r="2"/><path class="ln" d="M20 ${9+i*14} H34" stroke-width="1"/>`).join(''));
+sym('bug','soft','Incident / bug',44,46,()=>`<path class="ln" d="M6 18 L13 22 M6 29 H13 M6 40 L13 35 M38 18 L31 22 M38 29 H31 M38 40 L31 35 M17 8 L13 3 M27 8 L31 3"/><ellipse class="sh" cx="22" cy="28" rx="10" ry="14"/><circle class="sh" cx="22" cy="12" r="6"/><path class="ln" d="M22 18 V42" stroke-width="1"/>`);
+
+/* Environnement (VSM durable) */
+sym('energy','green','Énergie',34,46,()=>`<path class="en" d="M21 2 L4 26 H16 L12 44 L30 18 H18 Z" stroke-linejoin="round"/>`,{f:[['qty','Consommation','num','kWh/p']],d:{qty:0}});
+sym('water','green','Eau',34,44,()=>`<path class="wa" d="M17 2 Q30 20 30 29 A13 13 0 0 1 4 29 Q4 20 17 2 Z"/>`,{f:[['qty','Consommation','num','L/p']],d:{qty:0}});
+sym('waste','green','Déchets',38,46,()=>`<path class="sh" d="M6 12 H32 L29 43 H9 Z" stroke-linejoin="round"/><path class="ln" d="M3 12 H35 M14 12 V6 H24 V12 M15 18 V37 M23 18 V37" stroke-width="1.4"/>`,{f:[['qty','Quantité','num','kg/p']],d:{qty:0}});
+sym('co2','green','Émissions CO2',62,40,()=>`<path class="sh" d="M14 36 Q3 36 3 27 Q3 19 12 18 Q13 6 26 6 Q36 6 39 14 Q42 11 47 12 Q55 13 55 21 Q60 23 59 29 Q58 36 50 36 Z" stroke-linejoin="round"/><text class="ix" x="30" y="29" text-anchor="middle" style="font-size:12px">CO2</text>`,{f:[['qty','Émissions','num','kg CO2e/p']],d:{qty:0}});
+sym('recycle','green','Recyclage',46,46,()=>arcHead(23,24,16,-2.6,-1.2)+arcHead(23,24,16,-.5,.9)+arcHead(23,24,16,1.6,3.0));
+sym('resource','green','Ressource naturelle',42,44,()=>`<path class="lf" d="M6 38 Q4 8 37 4 Q37 34 6 38 Z"/><path class="ln" d="M6 38 L27 15" stroke-width="1.2"/>`);
+sym('hazard','green','Matière dangereuse',44,44,()=>`<path class="qb" d="M22 2 L42 22 L22 42 L2 22 Z" stroke-linejoin="round"/><text class="ix" x="22" y="29" text-anchor="middle">!</text>`);
+
+/* Amélioration et général */
+sym('quality','gen','Problème qualité',44,40,()=>`<path class="qb" d="M22 3 L41 37 H3 Z" stroke-linejoin="round"/><text class="ix" x="22" y="33" text-anchor="middle">!</text>`);
+sym('bottleneck','gen','Goulot / contrainte',40,46,()=>`<path class="sh" d="M6 3 H34 Q34 16 22 23 Q34 30 34 43 H6 Q6 30 18 23 Q6 16 6 3 Z" stroke-linejoin="round"/><path class="en" d="M11 41 Q14 34 20 33 Q26 34 29 41 Z" stroke="none"/>`);
+sym('wait','gen','Attente / délai',42,42,()=>`<circle class="sh" cx="21" cy="21" r="18"/><path class="ln" d="M21 9 V21 L29 26" stroke-width="2" stroke-linecap="round"/>`);
+sym('inspect','gen','Contrôle / inspection',44,44,()=>`<circle class="sh" cx="18" cy="18" r="14"/><path class="ln" d="M28 28 L40 40" stroke-width="4" stroke-linecap="round"/><path class="ln" d="M11 18 L16 23 L25 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`);
+sym('machine','gen','Machine / équipement',48,46,()=>`<path class="sh" d="M10 24 V5 H32 V13 H25 V24" stroke-linejoin="round"/><rect class="sh" x="4" y="24" width="40" height="18"/><path class="ln" d="M28 18 V24" stroke-width="2.4"/><rect class="fi" x="9" y="30" width="10" height="4"/>`);
+sym('rework','gen','Retouche / boucle',50,40,()=>`<path class="ln" d="M42 30 H15 A10 10 0 0 1 15 10 H35" stroke-width="2.2"/><path class="fi" d="M35 4 L44 10 L35 16 Z"/>`);
+def('note',{cat:'gen',label:'Post-it / note',w:110,h:70,resizable:true,d:{text:'Idée d\'amélioration'},f:[['text','Texte','area']],
+  draw:n=>{const L=wrap(n.props.text,Math.max(8,Math.floor(n.w/7))).slice(0,Math.floor((n.h-12)/14));return `<path class="kz" d="M2 2 H${n.w-2} V${n.h-16} L${n.w-16} ${n.h-2} H2 Z" stroke-linejoin="round"/><path class="ln" d="M${n.w-16} ${n.h-2} V${n.h-16} H${n.w-2}" stroke-width="1"/>`+L.map((l,i)=>`<text class="tx" x="9" y="${19+i*14}" style="font-weight:500;font-size:11.5px">${esc(l)}</text>`).join('')}});
+
+/* Familles de la palette et rattachement des symboles d'origine */
+CATS.length=0;
+CATS.push(['proc','Processus et acteurs'],['mat','Stocks et matière'],['log','Transport et logistique'],['info','Information et pilotage'],['pull','Flux tiré et kanban'],['office','Bureau et services'],['health','Santé et hôpital'],['soft','Logiciel et DevOps'],['green','Environnement (VSM durable)'],['gen','Amélioration et général']);
+[['supplier','proc'],['customer','proc'],['process','proc'],['shared','proc'],['control','info'],['truck','log'],['operator','proc']].forEach(([t,c])=>{T[t].cat=c});
+
 const LT={
   push:{label:'Flux poussé',hint:'matière poussée entre processus'},
   material:{label:'Expédition',hint:'matière vers / depuis l\'extérieur'},
   withdrawal:{label:'Retrait',hint:'flux tiré depuis un supermarché'},
   manual:{label:'Info manuelle',hint:'planning papier, consignes'},
-  electronic:{label:'Info électronique',hint:'EDI, ERP, courriel'}
+  electronic:{label:'Info électronique',hint:'EDI, ERP, courriel'},
+  verbal:{label:'Info verbale',hint:'échange oral, consigne donnée de vive voix'}
 };
 
 /* ---------- État ---------- */
@@ -790,11 +992,12 @@ function metrics(pg){
   const procs=flow.filter(isProc), invs=flow.filter(n=>!isProc(n));
   let pt=0,wip=0,invDays=0,ops=0,bottleneck=null;
   procs.forEach(p=>{const ct=num(p.props.ct);pt+=ct;ops+=num(p.props.op);if(!bottleneck||ct>num(bottleneck.props.ct))bottleneck=p});
-  invs.forEach(i=>{const q=num(i.props.qty);wip+=q;if(daily>0)invDays+=q/daily});
+  invs.forEach(i=>{const q=qtyOf(i,daily);wip+=q;if(daily>0)invDays+=q/daily});
   const ltDays=invDays+(avail>0?pt/avail:0);
   const pce=ltDays>0&&avail>0?pt/(ltDays*avail):0;
   const opsTheo=takt>0?pt/takt:0;
-  return {P,daily,avail,takt,flow,procs,invs,pt,wip,invDays,ltDays,pce,opsTheo,ops,bottleneck};
+  const rca=procs.reduce((r,p)=>r*(p.props.ca==null||p.props.ca===''?1:num(p.props.ca)/100),1);
+  return {P,daily,avail,takt,flow,procs,invs,pt,wip,invDays,ltDays,pce,opsTheo,ops,bottleneck,rca};
 }
 function procCalc(n,m){const p=n.props,ct=num(p.ct),up=num(p.up)/100,sc=num(p.scrap)/100;const cap=ct>0?m.avail*up*(1-sc)/ct:0;return {ct,ctAdj:up>0?ct/up:0,cap,load:cap>0?m.daily/cap:0,ratio:m.takt>0?ct/m.takt:0}}
 
@@ -807,7 +1010,7 @@ function route(l){
   const ac={x:A.x+A.w/2,y:A.y+A.h/2},bc={x:B.x+B.w/2,y:B.y+B.h/2};
   if(l.type==='electronic'||l.type==='withdrawal')return [clip(A,bc),clip(B,ac)];
   const xSep=B.x>=A.x+A.w+6||B.x+B.w<=A.x-6, ySep=B.y>=A.y+A.h+6||B.y+B.h<=A.y-6;
-  const horiz=l.type==='manual'?(xSep&&!ySep):xSep;
+  const horiz=(l.type==='manual'||l.type==='verbal')?(xSep&&!ySep):xSep;
   if(horiz){
     const right=bc.x>ac.x,x1=right?A.x+A.w:A.x,x2=right?B.x:B.x+B.w;
     const lo=Math.max(A.y,B.y),hi=Math.min(A.y+A.h,B.y+B.h);
@@ -834,6 +1037,7 @@ function drawLinkPts(type,pts,label,sel){
   else if(type==='material'){const d=pd(shorten(pts,10));if(sel)s+=`<path class="lk-sel" d="${d}" stroke-width="16"/>`;s+=`<path class="lk-o" d="${d}" stroke-width="10" stroke-linejoin="miter"/><path class="lk-i" d="${d}" stroke-width="6.6" stroke-linejoin="miter"/>`+head(end,prev,17,11,'lk-hh')}
   else if(type==='electronic'){const z=zig(pts[0],end),d=pd(shorten(z,8));hitD=pd(z);if(sel)s+=`<path class="lk-sel" d="${d}" stroke-width="8"/>`;s+=`<path class="lk" d="${d}"/>`+head(end,z[2],10,5,'lk-hf')}
   else if(type==='withdrawal'){const p1=pts[0],p2=end,dx=p2.x-p1.x,dy=p2.y-p1.y,c={x:(p1.x+p2.x)/2-dy*.25,y:(p1.y+p2.y)/2+dx*.25};const L=Math.hypot(p2.x-c.x,p2.y-c.y)||1,e={x:p2.x-(p2.x-c.x)/L*9,y:p2.y-(p2.y-c.y)/L*9};const d=`M${r1(p1.x)} ${r1(p1.y)} Q${r1(c.x)} ${r1(c.y)} ${r1(e.x)} ${r1(e.y)}`;hitD=d;if(sel)s+=`<path class="lk-sel" d="${d}" stroke-width="9"/>`;s+=`<path class="lk" d="${d}" stroke-width="2.2"/>`+head(p2,c,11,5.5,'lk-hf')}
+  else if(type==='verbal'){const d=pd(shorten(pts,8));if(sel)s+=`<path class="lk-sel" d="${d}" stroke-width="8"/>`;s+=`<path class="lk" d="${d}" stroke-dasharray="7 4"/>`+head(end,prev,10,5,'lk-hf')}
   else {const d=pd(shorten(pts,8));if(sel)s+=`<path class="lk-sel" d="${d}" stroke-width="8"/>`;s+=`<path class="lk" d="${d}"/>`+head(end,prev,10,5,'lk-hf')}
   if(label){let m;if(type==='electronic'){const p1=pts[0],dx=end.x-p1.x,dy=end.y-p1.y,Lg=Math.hypot(dx,dy)||1;let vx=-dy/Lg,vy=dx/Lg;if(vy>0||(vy===0&&vx>0)){vx=-vx;vy=-vy}m={x:(p1.x+end.x)/2+vx*18,y:(p1.y+end.y)/2+vy*18}}else m=linkMid(pts);const w=label.length*6.3+12;s+=`<rect class="lk-lbl" x="${r1(m.x-w/2)}" y="${r1(m.y-9)}" width="${r1(w)}" height="17" rx="3"/><text class="tm" x="${r1(m.x)}" y="${r1(m.y+3.5)}" text-anchor="middle">${esc(label)}</text>`}
   return {s,hitD};
@@ -844,7 +1048,7 @@ function drawTimeline(m){
   const procs=m.procs;if(!procs.length)return {s:'',box:null};
   const bottom=Math.max(...m.flow.map(n=>n.y+n.h))+34,yH=bottom,yL=bottom+30;
   const cx=n=>n.x+n.w/2;
-  const daysOf=a=>a.reduce((s,i)=>s+(m.daily>0?num(i.props.qty)/m.daily:0),0);
+  const daysOf=a=>a.reduce((s,i)=>s+(m.daily>0?qtyOf(i,m.daily)/m.daily:0),0);
   const invIn=(a,b)=>m.invs.filter(i=>cx(i)>a&&cx(i)<=b);
   const segs=[];
   const first=procs[0],pre=invIn(-Infinity,cx(first));
@@ -857,12 +1061,22 @@ function drawTimeline(m){
   segs.forEach(g=>{const mx=(g.x1+g.x2)/2;if(g.lvl==='H')s+=`<text class="tm" x="${r1(mx)}" y="${yH-7}" text-anchor="middle">${fmt(g.v,g.v>0&&g.v<.1?2:1)} j</text>`;else s+=`<text class="tm" x="${r1(mx)}" y="${yL+15}" text-anchor="middle">${fmt(g.v,1)} s</text>`});
   const x0=segs[0].x1;
   s+=`<text class="tl" x="${x0-8}" y="${yH+4}" text-anchor="end">ATTENTE</text><text class="tl" x="${x0-8}" y="${yL+4}" text-anchor="end">VA</text>`;
-  const bx=segs[segs.length-1].x2+26,by=yH-18;
-  s+=`<rect class="tl-box" x="${r1(bx)}" y="${by}" width="168" height="62" rx="2"/>`;
+  const adj=!!(m.P&&m.P.tl2),ct2=p=>{const u=num(p.props.up);return u>0?num(p.props.ct)/(u/100):num(p.props.ct)};
+  let yEnd=yL+24,adjSum=0;
+  if(adj){const yH2=yL+34,yL2=yH2+30;let d2='';segs.forEach((g,i)=>{const y=g.lvl==='H'?yH2:yL2;d2+=(i?` L${r1(g.x1)} ${y}`:`M${r1(g.x1)} ${y}`)+` L${r1(g.x2)} ${y}`});
+    s+=`<path class="tl-line" d="${d2}"/>`;
+    procs.forEach(p=>{const v=ct2(p);adjSum+=v;s+=`<text class="tm" x="${r1(p.x+p.w/2)}" y="${yL2+15}" text-anchor="middle">${fmt(v,2)} s</text>`});
+    s+=`<text class="tl" x="${x0-8}" y="${yL2+4}" text-anchor="end">VA AJUSTÉ</text><text class="tl" x="${x0-8}" y="${yL2+16}" text-anchor="end">(C/T ÷ DISPO)</text>`;yEnd=yL2+24}
+  const bx=segs[segs.length-1].x2+26,by=yH-18,bh=adj?116:62;
+  s+=`<rect class="tl-box" x="${r1(bx)}" y="${by}" width="168" height="${bh}" rx="2"/>`;
+  if(adj){s+=`<text class="tl" x="${r1(bx+10)}" y="${by+69}">VA AJUSTÉ (DISPO)</text><text class="tm" x="${r1(bx+158)}" y="${by+69}" text-anchor="end">${fmt(adjSum,2)} s</text>`;
+    s+=`<line class="ln" x1="${r1(bx+10)}" y1="${by+79}" x2="${r1(bx+158)}" y2="${by+79}" stroke-width="1"/>`;
+    s+=`<text class="tl" x="${r1(bx+10)}" y="${by+95}">RATIO VA / AJUSTÉ</text><text class="tm" x="${r1(bx+158)}" y="${by+95}" text-anchor="end">${fmt(adjSum>0?m.pt/adjSum:0,3)}</text>`;
+    s+=`<text class="tmu" x="${r1(bx+158)}" y="${by+108}" text-anchor="end">soit ${fmt(adjSum>0?m.pt/adjSum*100:0,1)} %</text>`}
   s+=`<text class="tl" x="${r1(bx+10)}" y="${by+15}">DÉLAI (LT)</text><text class="tm" x="${r1(bx+158)}" y="${by+15}" text-anchor="end">${fmt(m.ltDays,1)} j</text>`;
   s+=`<text class="tl" x="${r1(bx+10)}" y="${by+33}">TEMPS VA</text><text class="tm" x="${r1(bx+158)}" y="${by+33}" text-anchor="end">${fmt(m.pt,1)} s</text>`;
   s+=`<text class="tl" x="${r1(bx+10)}" y="${by+51}">PCE</text><text class="tm" x="${r1(bx+158)}" y="${by+51}" text-anchor="end">${fmt(m.pce*100,3)} %</text>`;
-  return {s,box:{x:x0-70,y:yH-26,x2:bx+170,y2:yL+24}};
+  return {s,box:{x:x0-70,y:yH-26,x2:bx+170,y2:Math.max(yEnd,by+bh+4)}};
 }
 
 /* ---------- Rendu ---------- */
@@ -882,7 +1096,7 @@ function parts(pg,live){
 }
 function render(){
   const p=parts(page(),true);S.m=p.m;S.tlBox=p.tl.box;
-  L.zones.innerHTML=p.zones;L.links.innerHTML=p.links;L.nodes.innerHTML=p.nodes;L.tl.innerHTML=p.tl.s;
+  L.zones.innerHTML=p.zones;L.links.innerHTML=p.links;L.nodes.innerHTML=p.nodes;L.tl.innerHTML=p.tl.s;$('#empty').hidden=page().nodes.length>0;
   renderOverlay();renderStatus();
 }
 function renderView(){
@@ -1126,7 +1340,7 @@ function autoLayout(pg,full){
   if(!full){const gs=[];for(let i=0;i<procs.length-1;i++)gs.push(procs[i+1].x-(procs[i].x+procs[i].w));if(gs.length)gap=Math.max(80,snap10(gs.reduce((a,b)=>a+b,0)/gs.length))}
   const groups=procs.map(()=>[]),pre=[];
   m.invs.forEach(i=>{const c=cx(i);let k=-1;procs.forEach((p,j)=>{if(cx(p)<c)k=j});if(k<0)pre.push(i);else groups[k].push(i)});
-  const invY=n=>n.type==='fifo'?rowY+11:rowY+34-n.h;
+  const invY=n=>n.type==='fifo'?rowY+11:rowY+21-n.h;
   const need=g=>g.length?g.reduce((s,n)=>s+n.w,0)+16*(g.length-1)+50:0;
   const place=(g,center)=>{g.sort((a,b)=>cx(a)-cx(b));const tw=g.reduce((s,n)=>s+n.w,0)+16*Math.max(0,g.length-1);let x=center-tw/2;g.forEach(n=>{n.x=Math.round(x);n.y=invY(n);x+=n.w+16})};
   let x=snap10(procs[0].x);
@@ -1173,7 +1387,7 @@ function issues(m){
     if(num(p.props.co)>=30)out.push({sev:'info',msg:`<b>${nm}</b> : changement de série ${fmt(p.props.co)} min. Piste SMED pour réduire les lots.`,act:['Voir','sel:'+p.id]});
     if(num(p.props.scrap)>=2)out.push({sev:'info',msg:`<b>${nm}</b> : rebut ${fmt(p.props.scrap)} %. Analyse qualité (Pareto, 5 pourquoi).`,act:['Voir','sel:'+p.id]});
   });
-  m.invs.forEach(i=>{const d=m.daily>0?num(i.props.qty)/m.daily:0;if(i.type==='inventory'&&d>=2)out.push({sev:'warn',msg:`Stock de <b>${fmt(i.props.qty,0)} p</b> soit ${fmt(d,1)} j. Remplacer par un supermarché ou un FIFO dimensionné.`,act:['Voir','sel:'+i.id]})});
+  m.invs.forEach(i=>{const d=m.daily>0?qtyOf(i,m.daily)/m.daily:0;if(i.type==='inventory'&&d>=2)out.push({sev:'warn',msg:`Stock de <b>${covOnly(i)?fmt(d,1)+' j':fmt(i.props.qty,0)+' p'}</b>${covOnly(i)?'':' soit '+fmt(d,1)+' j'}. Remplacer par un supermarché ou un FIFO dimensionné.`,act:['Voir','sel:'+i.id]})});
   if(!has('customer'))out.push({sev:'warn',msg:'Pas de client sur la carte : la demande et le takt ne sont pas représentés.'});
   if(!has('supplier'))out.push({sev:'info',msg:'Pas de fournisseur : la carte ne montre pas l\'entrée matière.'});
   if(!has('control'))out.push({sev:'info',msg:'Pas de contrôle de production : les flux d\'information sont absents.'});
@@ -1195,7 +1409,7 @@ function issues(m){
 /* ---------- Panneau de droite ---------- */
 const body=$('#insp-body');
 function openPanel(tab){if(tab)S.tab=tab;document.querySelectorAll('.insp-tabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));renderPanel();if(matchMedia('(max-width:900px)').matches){$('#inspector').classList.add('open');$('#palette').classList.remove('open')}}
-function miniIcon(type){const t=T[type];if(type==='process'||type==='shared'){const n=mk(type);return `<svg viewBox="-4 -12 138 72">${t.draw(n,{takt:0,daily:0,P:defParams()}).split('<rect class="sh" x=".8" y="62"')[0]}</svg>`}const n=mk(type);if(type==='customer')return `<svg viewBox="-4 -4 128 92">${factory(120,84)}</svg>`;return `<svg viewBox="-5 -5 ${n.w+10} ${n.h+10}">${t.draw(n,{takt:0,daily:920,P:defParams()}).replace(/<text[^>]*>[^<]*<\/text>/g,'')}</svg>`}
+function miniIcon(type){const t=T[type];if(type==='process'||type==='shared'){const n=mk(type);return `<svg viewBox="-4 -12 138 72">${t.draw(n,{takt:0,daily:0,P:defParams()}).split('<rect class="sh" x=".8" y="62"')[0]}</svg>`}const n=mk(type);if(type==='customer')return `<svg viewBox="-4 -4 128 92">${factory(120,84)}</svg>`;return `<svg viewBox="-5 -5 ${n.w+10} ${n.h+10}">${t.draw(n,{takt:0,daily:920,P:defParams()}).replace(/<text class="(tl|tm|tmu|tx)"[^>]*>[\s\S]*?<\/text>/g,'')}</svg>`}
 function linkIcon(type){const r=drawLinkPts(type,[{x:4,y:15},{x:66,y:15}],'',false);return `<svg viewBox="0 0 70 30">${r.s}</svg>`}
 function fieldHTML(f,val,attr){
   const [k,l,t,u]=f,id='f-'+attr+'-'+k;
@@ -1207,7 +1421,7 @@ function computedHTML(n){
   const m=S.m||metrics(page());
   if(isProc(n)){const c=procCalc(n,m),cls=c.ratio>1?'bad':c.ratio>.9?'warn':'ok';
     return `<div class="calc"><div><span>C/T ÷ takt</span><b class="${cls}">${fmt(c.ratio*100,0)} %</b></div><div><span>C/T ajusté (dispo)</span><b>${fmt(c.ctAdj,1)} s</b></div><div><span>Capacité / jour</span><b>${fmt(c.cap,0)} p</b></div><div><span>Taux de charge</span><b class="${c.load>1?'bad':c.load>.9?'warn':'ok'}">${fmt(c.load*100,0)} %</b></div><div><span>Takt</span><b>${fmt(m.takt,1)} s</b></div></div>`}
-  if(['inventory','supermarket','fifo','buffer'].includes(n.type)){const d=m.daily>0?num(n.props.qty)/m.daily:0;return `<div class="calc"><div><span>Couverture</span><b class="${d>=2?'warn':''}">${fmt(d,2)} j</b></div><div><span>Soit</span><b>${fmt(d*m.avail/3600,1)} h de production</b></div><div><span>Demande journalière</span><b>${fmt(m.daily,0)} p</b></div></div>`}
+  if(['inventory','supermarket','fifo','buffer'].includes(n.type)){const d=m.daily>0?qtyOf(n,m.daily)/m.daily:0;return `<div class="calc"><div><span>Couverture</span><b class="${d>=2?'warn':''}">${fmt(d,2)} j</b></div><div><span>Soit</span><b>${fmt(d*m.avail/3600,1)} h de production</b></div><div><span>Demande journalière</span><b>${fmt(m.daily,0)} p</b></div></div>`}
   if(n.type==='customer')return `<div class="calc"><div><span>Demande journalière</span><b>${fmt(m.daily,0)} p</b></div><div><span>Takt</span><b>${fmt(m.takt,1)} s</b></div></div><p class="note">Ces valeurs viennent des paramètres du flux. <button class="btn" data-act="params" style="margin-top:6px">Ouvrir les paramètres</button></p>`;
   return '';
 }
@@ -1244,6 +1458,7 @@ function propsHTML(){
     ${fieldHTML(['shifts','Postes / jour','num',''],P.shifts,'pk')}
     ${fieldHTML(['shiftMin','Temps net / poste','num','min'],P.shiftMin,'pk')}
     ${fieldHTML(['pack','Pièces / contenant','num','p'],P.pack,'pk')}
+    <label class="chk"><input type="checkbox" id="pk-tl2" data-pchk="tl2" ${P.tl2?'checked':''}> Ligne de temps ajustée (C/T ÷ disponibilité)</label>
   </div></div>
   <div class="sec"><h4>Calculé</h4><div id="pcomp">${paramsCalc(m)}</div></div>
   <p class="note">Cliquez sur un symbole pour saisir ses données. Double-clic : édition directe du nom.</p>
@@ -1257,6 +1472,7 @@ function kpiHTML(){
     <div class="kpi"><span>Délai (LT)</span><b>${fmt(m.ltDays,1)} j</b><small>Σ couvertures + Σ C/T</small></div>
     <div class="kpi"><span>Temps VA</span><b>${fmt(m.pt,1)} s</b><small>Σ C/T</small></div>
     <div class="kpi"><span>PCE</span><b>${fmt(m.pce*100,3)} %</b><small>VA ÷ LT</small></div>
+    <div class="kpi"><span>%C&amp;A cumulé</span><b>${fmt(m.rca*100,1)} %</b><small>Π %C&amp;A des étapes</small></div>
     <div class="kpi"><span>En-cours</span><b>${fmt(m.wip,0)} p</b><small>Little : ${fmt(m.daily>0?m.wip/m.daily:0,1)} j</small></div>
     <div class="kpi"><span>Opérateurs</span><b>${fmt(m.ops)} / ${fmt(m.opsTheo,1)}</b><small>réels / théoriques</small></div>
     <div class="kpi wide ${over?'bad':''}"><span>Goulot</span><b>${b?esc(b.props.name)+' · '+fmt(b.props.ct)+' s':'—'}</b><small>${b?(over?'au-dessus du takt':'sous le takt, demande tenue'):'aucun processus'}</small></div>
@@ -1298,9 +1514,9 @@ function assistHTML(){
   const kz=[];ps.forEach(p=>{const nm=esc(p.props.name);if(num(p.props.co)>=30)kz.push('SMED '+nm);if(num(p.props.up)<90)kz.push('TPM '+nm);if(m.takt>0&&num(p.props.ct)>m.takt)kz.push('Équilibrage '+nm);if(num(p.props.scrap)>=2)kz.push('Qualité '+nm)});
   const Q=[
     ['Quel est le takt ?',m.takt>0?`${fmt(m.takt,1)} s pour ${fmt(m.daily,0)} p/jour.`:'Renseignez la demande dans les paramètres du flux.'],
-    ['Supermarché de produits finis ou expédition directe ?',fgSm?'Supermarché de produits finis présent.':fgInv.length?`Stock final non piloté (${fmt(fgInv.reduce((s,n)=>s+num(n.props.qty),0)/(m.daily||1),1)} j) : supermarché ou expédition directe.`:'Aucun stock final : expédition directe.'],
+    ['Supermarché de produits finis ou expédition directe ?',fgSm?'Supermarché de produits finis présent.':fgInv.length?`Stock final non piloté (${fmt(fgInv.reduce((s,n)=>s+qtyOf(n,m.daily),0)/(m.daily||1),1)} j) : supermarché ou expédition directe.`:'Aucun stock final : expédition directe.'],
     ['Où appliquer le flux continu ?',pairs.length?'Regrouper : '+pairs.join(' ; ')+'.':`Aucun couple adjacent sous le takt ; viser des cellules à ${Math.ceil(m.opsTheo||0)} opérateurs (Σ C/T ÷ takt = ${fmt(m.opsTheo,1)}).`],
-    ['Où placer des supermarchés pour tirer ?',bigInv.length?bigInv.map(n=>`${fmt(n.props.qty,0)} p (${fmt(num(n.props.qty)/(m.daily||1),1)} j)`).join(', ')+' : remplacer par supermarché ou FIFO.':'Pas de stock intermédiaire non piloté.'],
+    ['Où placer des supermarchés pour tirer ?',bigInv.length?bigInv.map(n=>`${fmt(n.props.qty,0)} p (${fmt(qtyOf(n,m.daily)/(m.daily||1),1)} j)`).join(', ')+' : remplacer par supermarché ou FIFO.':'Pas de stock intermédiaire non piloté.'],
     ['Quel processus est le pacemaker ?',last?`${esc(last.props.name)} (dernier processus en flux, au plus près du client).`:'—'],
     ['Comment niveler le mix produit ?',heij?'Boîte de nivellement présente.':'Ajouter une boîte de nivellement (heijunka) devant le pacemaker.'],
     ['Quel incrément de travail libérer (pitch) ?',`${fmt(m.takt*num(m.P.pack)/60,1)} min = takt × ${fmt(m.P.pack,0)} pièces par contenant.`],
@@ -1314,13 +1530,13 @@ function renderPanel(){
 }
 body.addEventListener('input',e=>{
   const t=e.target,pg=page();
-  if(t.dataset.k){const n=byId([...S.sel][0]);if(!n)return;const f=T[n.type].f.find(x=>x[0]===t.dataset.k);n.props[t.dataset.k]=f&&f[2]==='num'?num(t.value):t.value;fit(n);render();const c=$('#computed');if(c)c.innerHTML=computedHTML(n);commitSoon()}
+  if(t.dataset.k){const n=byId([...S.sel][0]);if(!n)return;const f=T[n.type].f.find(x=>x[0]===t.dataset.k);n.props[t.dataset.k]=f&&f[2]==='num'?num(t.value):t.value;if(t.dataset.k==='split'){syncSplit(n);const q=$('#f-k-qty');if(q)q.value=n.props.qty}fit(n);render();const c=$('#computed');if(c)c.innerHTML=computedHTML(n);commitSoon()}
   else if(t.dataset.geo){const n=byId([...S.sel][0]);if(!n)return;n[t.dataset.geo]=num(t.value);render();commitSoon()}
   else if(t.dataset.pk){pg.params[t.dataset.pk]=num(t.value);render();const c=$('#pcomp');if(c)c.innerHTML=paramsCalc(S.m);commitSoon()}
   else if(t.dataset.pname){pg.name=t.value;renderPages();commitSoon()}
   else if(t.dataset.lk==='label'){const l=linkById([...S.selLinks][0]);if(l){l.label=t.value;render();commitSoon()}}
 });
-body.addEventListener('change',e=>{const t=e.target;if(t.dataset.lk==='type'){const l=linkById([...S.selLinks][0]);if(l){l.type=t.value;commit();render();renderPanel()}}else if(t.dataset.k||t.dataset.geo||t.dataset.pk||t.dataset.pname)commit()});
+body.addEventListener('change',e=>{const t=e.target;if(t.dataset.pchk){page().params[t.dataset.pchk]=t.checked;render();commit();return}if(t.dataset.lk==='type'){const l=linkById([...S.selLinks][0]);if(l){l.type=t.value;commit();render();renderPanel()}}else if(t.dataset.k||t.dataset.geo||t.dataset.pk||t.dataset.pname)commit()});
 body.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
   if(b.dataset.cmd){runCmd(b.dataset.cmd);return}
@@ -1344,19 +1560,22 @@ $('#pages').addEventListener('click',e=>{
 });
 
 /* ---------- Palette ---------- */
+let palClosed=new Set();try{palClosed=new Set(JSON.parse(localStorage.getItem(KEY+'-pal')||'[]'))}catch(_){}
 function paletteHTML(q){
   q=(q||'').trim().toLowerCase();
   const match=s=>!q||s.toLowerCase().includes(q);
   let h='';
+  const group=(id,lbl,n,body)=>`<details class="pal-group" data-g="${id}" ${q||!palClosed.has(id)?'open':''}><summary><h3>${lbl}<span>${n}</span></h3></summary><div class="pal-grid">${body}</div></details>`;
   CATS.forEach(([cat,lbl])=>{const items=Object.values(T).filter(t=>t.cat===cat&&match(t.label));if(!items.length)return;
-    h+=`<div class="pal-group"><h3>${lbl}<span>${items.length}</span></h3><div class="pal-grid">${items.map(t=>`<button class="pal-item" data-type="${t.type}" title="${esc(t.label)}">${miniIcon(t.type)}<span>${esc(t.label)}</span></button>`).join('')}</div></div>`});
+    h+=group(cat,lbl,items.length,items.map(t=>`<button class="pal-item" data-type="${t.type}" title="${esc(t.label)}">${miniIcon(t.type)}<span>${esc(t.label)}</span></button>`).join(''))});
   const ls=Object.entries(LT).filter(([,v])=>match(v.label));
-  if(ls.length)h+=`<div class="pal-group"><h3>Flux (connecteurs)<span>${ls.length}</span></h3><div class="pal-grid">${ls.map(([k,v])=>`<button class="pal-item" data-link="${k}" aria-pressed="${S.mode==='link'&&S.linkType===k}" title="${esc(v.label)} : ${esc(v.hint)}">${linkIcon(k)}<span>${esc(v.label)}</span></button>`).join('')}</div></div>`;
+  if(ls.length)h=group('links','Flux (connecteurs)',ls.length,ls.map(([k,v])=>`<button class="pal-item" data-link="${k}" aria-pressed="${S.mode==='link'&&S.linkType===k}" title="${esc(v.label)} : ${esc(v.hint)}">${linkIcon(k)}<span>${esc(v.label)}</span></button>`).join(''))+h;
   return h||'<p class="pal-hint">Aucun symbole ne correspond.</p>';
 }
 const palG=$('#pal-groups');
 function renderPalette(){palG.innerHTML=paletteHTML($('#pal-q').value)}
 $('#pal-q').addEventListener('input',renderPalette);
+palG.addEventListener('toggle',e=>{const d=e.target;if(!d.dataset||!d.dataset.g||$('#pal-q').value)return;if(d.open)palClosed.delete(d.dataset.g);else palClosed.add(d.dataset.g);try{localStorage.setItem(KEY+'-pal',JSON.stringify([...palClosed]))}catch(_){}},true);
 let pdrag=null;
 palG.addEventListener('pointerdown',e=>{
   const b=e.target.closest('.pal-item');if(!b||e.button!==0)return;
@@ -1400,6 +1619,7 @@ window.addEventListener('keydown',e=>{
   if(mod&&k.toLowerCase()==='d'){e.preventDefault();duplicate();return}
   if(mod&&k.toLowerCase()==='c'){copySel();return}
   if(mod&&k.toLowerCase()==='v'){e.preventDefault();paste(20);return}
+  if(mod&&k.toLowerCase()==='p'){e.preventDefault();openPDF();return}
   if(mod&&k.toLowerCase()==='a'){e.preventDefault();S.sel=new Set(page().nodes.map(n=>n.id));render();renderPanel();return}
   if(k==='Delete'||k==='Backspace'){e.preventDefault();del();return}
   if(k==='Escape'){setMode('select');S.sel.clear();S.selLinks.clear();render();renderPanel();return}
@@ -1411,26 +1631,161 @@ window.addEventListener('keydown',e=>{
 window.addEventListener('keyup',e=>{if(e.key===' ')spaceDown=false});
 
 /* ---------- Modales : import/export, raccourcis ---------- */
-function openModal(title,html){$('#dlg-title').textContent=title;$('#dlg-body').innerHTML=html;$('#modal').hidden=false}
+function openModal(title,html,wide){$('#dlg-title').textContent=title;$('#dlg-body').innerHTML=html;$('#modal .dlg').classList.toggle('wide',!!wide||title==='Exporter en PDF');$('#modal').hidden=false}
 function closeModal(){$('#modal').hidden=true}
 $('#dlg-x').onclick=closeModal;$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-const EXPORT_CSS=`.sh{fill:#fff;stroke:#17202B;stroke-width:1.6}.ln{fill:none;stroke:#17202B;stroke-width:1.6}.fi{fill:#17202B}.tx{fill:#17202B;font:600 12px 'IBM Plex Sans',Arial,sans-serif}.tm{fill:#17202B;font:500 10.5px 'IBM Plex Mono',monospace}.tmu{fill:#5A6573;font:500 10.5px 'IBM Plex Mono',monospace}.tl{fill:#5A6573;font:600 10.5px 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.08em}.kz{fill:#FFF3C4;stroke:#F3C53A;stroke-width:1.8}.zone{fill:none;stroke:#5A6573;stroke-width:1.4;stroke-dasharray:7 5}.row-bad{fill:rgba(201,42,42,.13)}.row-warn{fill:rgba(200,116,18,.14)}.tag-bad{fill:#C92A2A}.tag-warn{fill:#C87412}.tag-t{fill:#fff;font:700 10px 'Barlow Condensed',sans-serif;letter-spacing:.08em}.hatchl{stroke:#5A6573}.hitr,.hitz,.hit{fill:none;stroke:none}.lk{fill:none;stroke:#17202B;stroke-width:1.6}.lk-o{fill:none;stroke:#17202B}.lk-i{fill:none;stroke:#fff}.lk-hf{fill:#17202B}.lk-hh{fill:#fff;stroke:#17202B;stroke-width:1.6}.lk-lbl{fill:#fff;stroke:#D5DAE0}.tl-line{fill:none;stroke:#17202B;stroke-width:1.8}.tl-box{fill:#fff;stroke:#17202B;stroke-width:1.4}`;
+const LIGHT={canvas:'#FFFFFF',ink:'#17202B',muted:'#5A6573',line:'#D5DAE0',accent:'#2448D8','accent-soft':'rgba(36,72,216,.12)',bad:'#C92A2A','bad-soft':'rgba(201,42,42,.13)',warn:'#C87412','warn-soft':'rgba(200,116,18,.14)',ok:'#2B8A3E',kaizen:'#E9A21B','kaizen-soft':'#FFF1D0','on-accent':'#FFFFFF',grid:'#C3CAD3',brand:'#2448D8',amber:'#F5A524'};
+const lit=s=>s.replace(/var\(--([a-z-]+)\)/g,(m,k)=>LIGHT[k]||'#17202B');
+const FNT=(fam,w,sz)=>`font-family:${fam};font-weight:${w};font-size:${sz}px`;
+const F_SANS="'IBM Plex Sans',Arial,sans-serif",F_MONO="'IBM Plex Mono',monospace",F_COND="'Barlow Condensed','Arial Narrow',sans-serif";
+const EXPORT_CSS=`.sh{fill:#FFFFFF;stroke:#17202B;stroke-width:1.6}.ln{fill:none;stroke:#17202B;stroke-width:1.6}.fi{fill:#17202B}.tx{fill:#17202B;${FNT(F_SANS,600,12)}}.tm{fill:#17202B;${FNT(F_MONO,500,10.5)}}.tmu{fill:#5A6573;${FNT(F_MONO,500,10.5)}}.tl{fill:#5A6573;${FNT(F_COND,600,10.5)};letter-spacing:.84px}.ix{fill:#17202B;${FNT(F_COND,700,15)}}.kz{fill:#FFF1D0;stroke:#E9A21B;stroke-width:1.8}.zone{fill:none;stroke:#5A6573;stroke-width:1.4;stroke-dasharray:7 5}.row-bad{fill:#C92A2A;fill-opacity:.13}.row-warn{fill:#C87412;fill-opacity:.14}.tag-bad{fill:#C92A2A}.tag-warn{fill:#C87412}.tag-t{fill:#FFFFFF;${FNT(F_COND,700,10)};letter-spacing:.8px}.hatchl{stroke:#5A6573;stroke-width:1}.hitr,.hitz,.hit{fill:none;stroke:none}.lk{fill:none;stroke:#17202B;stroke-width:1.6}.lk-o{fill:none;stroke:#17202B}.lk-i{fill:none;stroke:#FFFFFF}.lk-hf{fill:#17202B}.lk-hh{fill:#FFFFFF;stroke:#17202B;stroke-width:1.6}.lk-lbl{fill:#FFFFFF;stroke:#D5DAE0}.tl-line{fill:none;stroke:#17202B;stroke-width:1.8}.tl-box{fill:#FFFFFF;stroke:#17202B;stroke-width:1.4}.lq{fill:#2448D8;fill-opacity:.12;stroke:none}.qb{fill:#FBE3E3;stroke:#C92A2A;stroke-width:1.8}.en{fill:#FFF1D0;stroke:#E9A21B;stroke-width:1.8}.wa{fill:#E4EAFB;stroke:#2448D8;stroke-width:1.8}.lf{fill:#DDEFE1;stroke:#2B8A3E;stroke-width:1.8}.an-r{fill:#C92A2A;stroke:#17202B;stroke-width:1.2}.an-a{fill:#E9A21B;stroke:#17202B;stroke-width:1.2}.an-g{fill:#2B8A3E;stroke:#17202B;stroke-width:1.2}.bf{fill:#C92A2A}.lbl-bg{fill:#FFFFFF}.ch-ax{stroke:#D5DAE0;stroke-width:1}.ch-t{fill:#5A6573;${FNT(F_MONO,500,10)}}.ch-v{fill:#17202B;${FNT(F_MONO,500,10)}}.ch-takt{stroke:#17202B;stroke-width:1.3;stroke-dasharray:5 3}`;
 function exportSVG(){
   const pg=page(),p=parts(pg,false);
   const b=pg.nodes.length?bboxOf(pg.nodes):{x:0,y:0,w:100,h:100};let x1=b.x-30,y1=b.y-30,x2=b.x+b.w+30,y2=b.y+b.h+40;
   if(p.tl.box){x1=Math.min(x1,p.tl.box.x);x2=Math.max(x2,p.tl.box.x2+10);y2=Math.max(y2,p.tl.box.y2+10)}
   const W=Math.round(x2-x1),H=Math.round(y2-y1);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${Math.round(x1)} ${Math.round(y1)} ${W} ${H}" width="${W}" height="${H}"><style>${EXPORT_CSS}</style><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" class="hatchl"/></pattern></defs><rect x="${Math.round(x1)}" y="${Math.round(y1)}" width="${W}" height="${H}" fill="#fff"/>${p.zones}${p.links}${p.nodes}${p.tl.s}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${Math.round(x1)} ${Math.round(y1)} ${W} ${H}" width="${W}" height="${H}"><style>${EXPORT_CSS}</style><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" class="hatchl"/></pattern></defs><rect x="${Math.round(x1)}" y="${Math.round(y1)}" width="${W}" height="${H}" fill="#fff"/>${p.zones}${p.links}${p.nodes}${p.tl.s}</svg>`.replace(/var\(--([a-z-]+)\)/g,(m,k)=>LIGHT[k]||'#17202B');
 }
 function copyText(id,btn){const ta=$('#'+id);const done=()=>{btn.textContent='Copié';setTimeout(()=>btn.textContent='Copier',1600)};try{navigator.clipboard.writeText(ta.value).then(done,()=>{ta.focus();ta.select()})}catch(_){ta.focus();ta.select()}}
 const TAURI=window.__TAURI__||null;
+
+/* ---------- Export PDF : formats papier, orientation, échelle, mosaïque, cartouche ---------- */
+const PAPERS=[['A5',148,210],['A4',210,297],['A3',297,420],['A2',420,594],['A1',594,841],['A0',841,1189],['2A0',1189,1682],['B4',250,353],['B3',353,500],['B2',500,707],['B1',707,1000],['Letter (US)',215.9,279.4],['Legal (US)',215.9,355.6],['Tabloid / Ledger',279.4,431.8],['ANSI C',431.8,558.8],['ANSI D',558.8,863.6],['ANSI E',863.6,1117.6],['Arch D',609.6,914.4],['Arch E',914.4,1219.2],['Personnalisé',0,0]];
+const PX_MM=25.4/96;
+const f2=v=>Math.round(v*100)/100;
+const PDF_KEY=KEY+'-pdf';
+function pdfDefaults(){const d={paper:'A3',cw:500,ch:350,orient:'auto',mode:'fit',pct:100,margin:10,pages:'current',cart:true,frame:true,summary:false};try{Object.assign(d,JSON.parse(localStorage.getItem(PDF_KEY)||'{}'))}catch(_){}return d}
+function contentOf(pg){
+  const p=parts(pg,false);const b=pg.nodes.length?bboxOf(pg.nodes):{x:0,y:0,w:300,h:180};
+  let x1=b.x-40,y1=b.y-26,x2=b.x+b.w+40,y2=b.y+b.h+34;
+  if(p.tl.box){x1=Math.min(x1,p.tl.box.x);x2=Math.max(x2,p.tl.box.x2+6);y2=Math.max(y2,p.tl.box.y2+8)}
+  return {p,box:{x:x1,y:y1,w:x2-x1,h:y2-y1}};
+}
+function paperDims(o,box){
+  const P=PAPERS.find(p=>p[0]===o.paper)||PAPERS[1];
+  let a=P[0]==='Personnalisé'?Math.max(50,num(o.cw)):P[1],b=P[0]==='Personnalisé'?Math.max(50,num(o.ch)):P[2];
+  const short=Math.min(a,b),long=Math.max(a,b);
+  const land=o.orient==='landscape'||(o.orient==='auto'&&(!box||box.w>=box.h));
+  return land?[long,short]:[short,long];
+}
+const ST=(x,y,t,size,o={})=>`<text x="${f2(x)}" y="${f2(y)}" font-family="${o.fam||"'IBM Plex Sans'"}" font-weight="${o.w||500}" font-size="${f2(size)}" fill="${o.fill||'#17202B'}"${o.anchor?` text-anchor="${o.anchor}"`:''}${o.ls?` letter-spacing="${o.ls}"`:''}>${esc(t)}</text>`;
+const BRAND_MARK=(x,y,s)=>`<g transform="translate(${f2(x)} ${f2(y)}) scale(${f2(s/32)})"><rect width="32" height="32" rx="7" fill="#2448D8"/><path d="M16 6 L26 25 H6 Z" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round"/><path d="M9.6 19.5 H13 V16 H19 V19.5 H22.4" fill="none" stroke="#F5A524" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+function cartouche(o,W,H,m,aw,pg,m2,info){
+  const h=24,y=H-m-h,x=m,k=Math.min(1.25,Math.max(.72,aw/277));
+  const cols=[.15,.31,.28,.13,.13].map(f=>f*aw);let cx=x;const xs=cols.map(w=>{const r=cx;cx+=w;return r});
+  const COND="'Barlow Condensed'",MONO="'IBM Plex Mono'";
+  let s=`<rect x="${f2(x)}" y="${f2(y)}" width="${f2(aw)}" height="${h}" fill="#FFFFFF" stroke="#17202B" stroke-width="0.35"/>`;
+  xs.slice(1).forEach(v=>s+=`<line x1="${f2(v)}" y1="${f2(y)}" x2="${f2(v)}" y2="${f2(y+h)}" stroke="#17202B" stroke-width="0.25"/>`);
+  s+=BRAND_MARK(xs[0]+3,y+5,9*k)+ST(xs[0]+5+9*k,y+9.6,'Atelier',4.2*k,{fam:COND,w:500})+ST(xs[0]+5+9*k,y+14.2,'VSM',4.2*k,{fam:COND,w:700});
+  s+=ST(xs[0]+3,y+h-3,'Cartographie de la chaîne de valeur',1.9*k,{fill:'#5A6573'});
+  const L=(i,lbl,yy)=>ST(xs[i]+3,yy,lbl.toUpperCase(),1.8*k,{fam:COND,w:600,fill:'#5A6573',ls:'.25'});
+  L(1,'Projet',y+5);s+=L(1,'Projet',y+5)+ST(xs[1]+3,y+11.5,cut(o.title||'Carte VSM',48),4.4*k,{w:600});
+  s+=ST(xs[1]+3,y+17,cut(pg?pg.name:'Synthèse',40)+(o.org?'  ·  '+cut(o.org,34):''),2.6*k,{fill:'#2448D8',w:600});
+  s+=ST(xs[1]+3,y+h-3,o.desc?cut(o.desc,70):'',1.9*k,{fill:'#5A6573'});
+  s+=L(2,'Indicateurs',y+5);
+  if(m2){const kp=[['Takt',fmt(m2.takt,1)+' s'],['Délai (LT)',fmt(m2.ltDays,1)+' j'],['Temps VA',fmt(m2.pt,1)+' s'],['PCE',fmt(m2.pce*100,3)+' %']];
+    kp.forEach((q,i)=>{const cx2=xs[2]+3+(i%2)*cols[2]/2,cy=y+10.5+Math.floor(i/2)*7;s+=ST(cx2,cy,q[0],1.9*k,{fill:'#5A6573'})+ST(cx2,cy+3.6,q[1],2.7*k,{fam:MONO,w:500})})}
+  s+=L(3,'Auteur',y+5)+ST(xs[3]+3,y+10,cut(o.author||'—',22),2.5*k,{w:600});
+  s+=L(3,'Date',y+15)+ST(xs[3]+3,y+20,new Date().toLocaleDateString('fr-FR'),2.5*k,{fam:MONO});
+  s+=L(4,'Format',y+5)+ST(xs[4]+3,y+10,info.format,2.4*k,{w:600});
+  s+=L(4,'Échelle · planche',y+15)+ST(xs[4]+3,y+20,info.scale+'  ·  '+info.sheet,2.3*k,{fam:MONO});
+  return s;
+}
+function sheetFrame(W,H,inner){return `<svg xmlns="http://www.w3.org/2000/svg" width="${f2(W)}mm" height="${f2(H)}mm" viewBox="0 0 ${f2(W)} ${f2(H)}"><style>${EXPORT_CSS}</style><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" class="hatchl"/></pattern></defs><rect x="0" y="0" width="${f2(W)}" height="${f2(H)}" fill="#FFFFFF"/>${inner}</svg>`}
+function buildSheets(o){
+  const meta=doc.meta||{};o=Object.assign({},o,{title:meta.title,author:meta.author,org:meta.org,desc:meta.desc});
+  const list=o.pages==='all'?doc.pages:[page()],out=[];let info0=null;
+  list.forEach(pg=>{
+    const {p,box}=contentOf(pg),m2=metrics(pg),[W,H]=paperDims(o,box),mg=Math.max(0,num(o.margin)),cartH=o.cart?27:0;
+    const aw=W-2*mg,ah=H-2*mg-cartH;
+    const fit=o.mode==='fit',s=fit?Math.min(aw/box.w,ah/box.h):Math.max(.05,num(o.pct))/100*PX_MM;
+    const cols=fit?1:Math.max(1,Math.ceil(box.w*s/aw-1e-6)),rows=fit?1:Math.max(1,Math.ceil(box.h*s/ah-1e-6));
+    const P=PAPERS.find(q=>q[0]===o.paper)||PAPERS[1];
+    const format=(P[0]==='Personnalisé'?`${f2(W)}×${f2(H)} mm`:P[0])+(W>=H?' paysage':' portrait');
+    const scale=fit?`ajustée ${fmt(s/PX_MM*100,0)} %`:`${fmt(num(o.pct),0)} %`;
+    if(!info0)info0={W,H,format,scale,tiles:rows*cols};
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      const wx=box.x+c*aw/s,wy=box.y+r*ah/s,ox=fit?(aw-box.w*s)/2:0,oy=fit?(ah-box.h*s)/2:0,id='clip'+out.length;
+      let inner=`<defs><clipPath id="${id}"><rect x="${f2(mg)}" y="${f2(mg)}" width="${f2(aw)}" height="${f2(ah)}"/></clipPath></defs>`;
+      inner+=`<g clip-path="url(#${id})"><g transform="translate(${f2(mg+ox)} ${f2(mg+oy)}) scale(${s}) translate(${f2(-wx)} ${f2(-wy)})">${p.zones}${p.links}${p.nodes}${p.tl.s}</g></g>`;
+      if(o.frame)inner+=`<rect x="${f2(mg)}" y="${f2(mg)}" width="${f2(aw)}" height="${f2(ah)}" fill="none" stroke="#17202B" stroke-width="0.3"/>`;
+      if(rows*cols>1){inner+=ST(mg+aw-2,mg+4,`Planche ${r+1}-${c+1}`,2.4,{anchor:'end',fill:'#5A6573',w:600});
+        [[mg,mg],[mg+aw,mg],[mg,mg+ah],[mg+aw,mg+ah]].forEach(([x,y])=>inner+=`<path d="M${f2(x-3)} ${f2(y)} H${f2(x+3)} M${f2(x)} ${f2(y-3)} V${f2(y+3)}" stroke="#D6336C" stroke-width="0.25"/>`)}
+      if(o.cart)inner+=cartouche(o,W,H,mg,aw,pg,m2,{format,scale,sheet:`${out.length+1}/__N__`});
+      out.push(sheetFrame(W,H,inner));
+    }
+  });
+  if(o.summary){const [W,H]=paperDims(Object.assign({},o,{orient:'landscape'}),null);out.push(sheetFrame(W,H,summaryInner(o,W,H,out.length)))}
+  const N=out.length;return {sheets:out.map(s=>lit(s.replace(/__N__/g,N))),info:info0};
+}
+function summaryInner(o,W,H,idx){
+  const mg=Math.max(8,num(o.margin)),aw=W-2*mg,k=Math.min(1.6,Math.max(.75,aw/277));
+  let s=ST(mg,mg+9*k,'Synthèse des indicateurs',7*k,{fam:"'Barlow Condensed'",w:700});
+  s+=ST(mg,mg+15*k,(o.title||'Carte VSM')+'  ·  '+doc.pages.length+' état(s)',3*k,{fill:'#5A6573'});
+  const ms=doc.pages.map(p=>metrics(p));
+  const rows=[['Demande journalière',x=>fmt(x.daily,0)+' p'],['Takt',x=>fmt(x.takt,1)+' s'],['Délai (LT)',x=>fmt(x.ltDays,2)+' j'],['Temps à valeur ajoutée',x=>fmt(x.pt,1)+' s'],['PCE',x=>fmt(x.pce*100,3)+' %'],['En-cours (WIP)',x=>fmt(x.wip,0)+' p'],['Opérateurs réels / théoriques',x=>fmt(x.ops,1)+' / '+fmt(x.opsTheo,2)],['%C&A cumulé',x=>fmt(x.rca*100,1)+' %'],['Goulot',x=>x.bottleneck?cut(x.bottleneck.props.name,22)+' ('+fmt(num(x.bottleneck.props.ct))+' s)':'—']];
+  const c0=Math.min(70*k,aw*.34),cw=Math.min(60*k,(aw-c0)/Math.max(1,ms.length)),rh=7.2*k;let y=mg+24*k;
+  s+=`<rect x="${f2(mg)}" y="${f2(y-rh+1.8*k)}" width="${f2(c0+cw*ms.length)}" height="${f2(rh)}" fill="#EEF1F8"/>`;
+  s+=ST(mg+2,y,'INDICATEUR',2.4*k,{fam:"'Barlow Condensed'",w:600,fill:'#5A6573',ls:'.25'});
+  doc.pages.forEach((p,i)=>s+=ST(mg+c0+cw*(i+1)-2,y,cut(p.name,18).toUpperCase(),2.4*k,{fam:"'Barlow Condensed'",w:600,fill:'#5A6573',anchor:'end',ls:'.25'}));
+  rows.forEach(([lbl,f])=>{y+=rh;s+=`<line x1="${f2(mg)}" y1="${f2(y-rh+1.8*k)}" x2="${f2(mg+c0+cw*ms.length)}" y2="${f2(y-rh+1.8*k)}" stroke="#D5DAE0" stroke-width="0.25"/>`;s+=ST(mg+2,y,lbl,2.8*k);ms.forEach((x,i)=>s+=ST(mg+c0+cw*(i+1)-2,y,f(x),2.8*k,{fam:"'IBM Plex Mono'",anchor:'end'}))});
+  const m=metrics(page()),ch=balanceChart(m),mm=ch.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  if(mm){const cwv=+mm[1],chv=+mm[2],inner=ch.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'').replace(/<title>[^<]*<\/title>/g,'');const ty=y+12*k,avH=H-mg-(o.cart?27:0)-ty-6,sc=Math.min(aw*.6/cwv,avH/chv);
+    if(sc>0){s+=ST(mg,ty-2,'Équilibrage C/T vs takt · '+page().name,3.2*k,{fam:"'Barlow Condensed'",w:700});s+=`<g transform="translate(${f2(mg)} ${f2(ty+1)}) scale(${f2(sc)})">${inner}</g>`}}
+  if(o.cart)s+=cartouche(o,W,H,mg,aw,null,null,{format:'Synthèse',scale:'—',sheet:`${idx+1}/__N__`});
+  return s;
+}
+function svgURL(svg){return URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}))}
+let pdfPrevURL=null;
+function openPDF(){
+  const o=pdfDefaults(),meta=doc.meta||(doc.meta={});
+  const opt=(v,l,cur)=>`<option value="${esc(v)}" ${String(v)===String(cur)?'selected':''}>${esc(l)}</option>`;
+  openModal('Exporter en PDF',`<div class="pdf-grid">
+    <div class="pdf-form">
+      <div class="fld"><label for="pdf-paper">Format</label><div class="inp"><select id="pdf-paper">${PAPERS.map(p=>opt(p[0],p[0]+(p[1]?` (${f2(p[1])}×${f2(p[2])} mm)`:''),o.paper)).join('')}</select></div></div>
+      <div class="fld" id="pdf-custom" ${o.paper==='Personnalisé'?'':'hidden'}><label>Largeur × hauteur</label><div class="geo2"><div class="inp"><input id="pdf-cw" type="number" value="${o.cw}" aria-label="Largeur"><i>mm</i></div><div class="inp"><input id="pdf-ch" type="number" value="${o.ch}" aria-label="Hauteur"><i>mm</i></div></div></div>
+      <div class="fld"><label for="pdf-orient">Orientation</label><div class="inp"><select id="pdf-orient">${opt('auto','Automatique',o.orient)}${opt('landscape','Paysage',o.orient)}${opt('portrait','Portrait',o.orient)}</select></div></div>
+      <div class="fld"><label for="pdf-mode">Mise à l'échelle</label><div class="inp"><select id="pdf-mode">${opt('fit','Ajuster à la feuille',o.mode)}${opt('scale','Échelle fixe (mosaïque si besoin)',o.mode)}</select></div></div>
+      <div class="fld" id="pdf-pctf" ${o.mode==='scale'?'':'hidden'}><label for="pdf-pct">Échelle</label><div class="inp"><input id="pdf-pct" type="number" min="10" max="400" step="5" value="${o.pct}"><i>%</i></div></div>
+      <div class="fld"><label for="pdf-margin">Marges</label><div class="inp"><input id="pdf-margin" type="number" min="0" max="40" value="${o.margin}"><i>mm</i></div></div>
+      <div class="fld"><label for="pdf-pages">Contenu</label><div class="inp"><select id="pdf-pages">${opt('current','Page courante',o.pages)}${opt('all','Tous les états ('+doc.pages.length+')',o.pages)}</select></div></div>
+      <label class="chk"><input type="checkbox" id="pdf-cart" ${o.cart?'checked':''}> Cartouche (titre, auteur, indicateurs)</label>
+      <label class="chk"><input type="checkbox" id="pdf-frame" ${o.frame?'checked':''}> Cadre</label>
+      <label class="chk"><input type="checkbox" id="pdf-summary" ${o.summary?'checked':''}> Page de synthèse des indicateurs</label>
+      <div class="fld"><label for="pdf-title">Projet</label><div class="inp"><input id="pdf-title" type="text" value="${esc(meta.title||'')}" placeholder="ex. VSM Emboutissage ABC"></div></div>
+      <div class="fld"><label for="pdf-author">Auteur</label><div class="inp"><input id="pdf-author" type="text" value="${esc(meta.author||'')}"></div></div>
+      <div class="fld"><label for="pdf-org">Site / organisation</label><div class="inp"><input id="pdf-org" type="text" value="${esc(meta.org||'')}"></div></div>
+    </div>
+    <div class="pdf-prev"><div class="pdf-sheet"><img id="pdf-img" alt="Aperçu de la première planche"></div><p class="note" id="pdf-info"></p></div>
+  </div>
+  <div class="row-btns" style="justify-content:flex-end"><button class="btn primary" id="pdf-go">Exporter le PDF…</button></div><p class="note" id="pdf-msg"></p>`);
+  const read=()=>({paper:$('#pdf-paper').value,cw:num($('#pdf-cw').value),ch:num($('#pdf-ch').value),orient:$('#pdf-orient').value,mode:$('#pdf-mode').value,pct:num($('#pdf-pct').value)||100,margin:num($('#pdf-margin').value),pages:$('#pdf-pages').value,cart:$('#pdf-cart').checked,frame:$('#pdf-frame').checked,summary:$('#pdf-summary').checked});
+  const refresh=()=>{const v=read();try{localStorage.setItem(PDF_KEY,JSON.stringify(v))}catch(_){}
+    meta.title=$('#pdf-title').value;meta.author=$('#pdf-author').value;meta.org=$('#pdf-org').value;
+    $('#pdf-custom').hidden=v.paper!=='Personnalisé';$('#pdf-pctf').hidden=v.mode!=='scale';
+    const r=buildSheets(v);if(pdfPrevURL)URL.revokeObjectURL(pdfPrevURL);pdfPrevURL=svgURL(r.sheets[0]);
+    const img=$('#pdf-img');img.src=pdfPrevURL;img.parentElement.style.aspectRatio=`${r.info.W} / ${r.info.H}`;
+    $('#pdf-info').textContent=`${r.sheets.length} page${r.sheets.length>1?'s':''} · ${r.info.format} (${f2(r.info.W)}×${f2(r.info.H)} mm) · échelle ${r.info.scale}${r.info.tiles>1?` · mosaïque de ${r.info.tiles} planches par état`:''}`;
+    return r};
+  $('#dlg-body').addEventListener('input',refresh);$('#dlg-body').addEventListener('change',()=>{refresh();commitSoon()});
+  refresh();
+  $('#pdf-go').onclick=async()=>{const r=refresh(),msg=$('#pdf-msg');commit();
+    if(!TAURI){msg.textContent='L\'export PDF passe par le moteur Rust de l\'application desktop. Ouvrez Atelier VSM sur votre ordinateur pour enregistrer le fichier.';return}
+    try{const name=((doc.meta&&doc.meta.title)||page().name||'carte-vsm').replace(/[\\/:*?"<>|]+/g,'-');
+      const path=await TAURI.dialog.save({defaultPath:name+'.pdf',filters:[{name:'Document PDF',extensions:['pdf']}]});if(!path)return;
+      msg.textContent='Génération du PDF…';
+      const n=await TAURI.core.invoke('export_pdf',{path,sheets:r.sheets,title:(doc.meta&&doc.meta.title)||page().name});
+      msg.textContent=`PDF enregistré (${n} page${n>1?'s':''}) : ${path}`;toastHint('PDF exporté : '+path)}
+    catch(err){msg.textContent='Échec de l\'export PDF : '+err}};
+}
+
 async function dSave(contents,name,ext,label){try{const path=await TAURI.dialog.save({defaultPath:name,filters:[{name:label,extensions:[ext]}]});if(!path)return false;await TAURI.core.invoke('save_text',{path,contents});toastHint('Enregistré : '+path);return true}catch(err){toastHint('Échec de l\'enregistrement : '+err);return false}}
 async function dOpen(){try{const path=await TAURI.dialog.open({multiple:false,filters:[{name:'Carte VSM',extensions:['vsm','json']}]});if(!path)return;const txt=await TAURI.core.invoke('load_text',{path});const d=JSON.parse(txt);if(!d||!Array.isArray(d.pages)||!d.pages.length)throw new Error('fichier sans pages');normalize(d);doc=d;S.sel.clear();S.selLinks.clear();commit();render();renderPages();renderPanel();fitView();closeModal();toastHint('Ouvert : '+path)}catch(err){toastHint('Ouverture impossible : '+(err.message||err))}}
 async function dReport(){try{const csv=await TAURI.core.invoke('report_csv',{doc:JSON.stringify(doc)});await dSave(csv,'rapport-vsm.csv','csv','Tableur CSV')}catch(err){toastHint('Rapport impossible : '+err)}}
 if(TAURI){window.addEventListener('keydown',e=>{const mod=e.ctrlKey||e.metaKey;if(!mod)return;const k=e.key.toLowerCase();if(k==='s'){e.preventDefault();dSave(JSON.stringify(doc,null,2),'carte.vsm','vsm','Carte VSM')}else if(k==='o'){e.preventDefault();dOpen()}})}
 $('#btn-io').onclick=()=>{
-  if(TAURI){openModal('Fichiers',`<div class="row-btns"><button class="btn primary" id="d-open">Ouvrir une carte (.vsm)…</button><button class="btn" id="d-save">Enregistrer sous… (Ctrl+S)</button></div><div class="row-btns"><button class="btn" id="d-svg">Exporter la page en SVG…</button><button class="btn" id="d-csv">Exporter le rapport (CSV, calculé en Rust)…</button></div><p class="note">Les fichiers .vsm sont du JSON ouvert : toutes les pages, paramètres, symboles et flux.</p><hr style="border:0;border-top:1px solid var(--line);width:100%"><div class="row-btns"><button class="btn" id="x-json">Afficher le JSON</button><button class="btn" id="x-imp">Coller un JSON</button></div><div id="io-pane"></div>`);
-    $('#d-open').onclick=dOpen;$('#d-save').onclick=()=>dSave(JSON.stringify(doc,null,2),'carte.vsm','vsm','Carte VSM');$('#d-svg').onclick=()=>dSave(exportSVG(),(page().name||'page')+'.svg','svg','Image SVG');$('#d-csv').onclick=dReport;
+  if(TAURI){openModal('Fichiers',`<div class="row-btns"><button class="btn primary" id="d-open">Ouvrir une carte (.vsm)…</button><button class="btn" id="d-save">Enregistrer sous… (Ctrl+S)</button></div><div class="row-btns"><button class="btn primary" id="d-pdf">Exporter en PDF…</button><button class="btn" id="d-svg">Exporter la page en SVG…</button><button class="btn" id="d-csv">Exporter le rapport (CSV, calculé en Rust)…</button></div><p class="note">Les fichiers .vsm sont du JSON ouvert : toutes les pages, paramètres, symboles et flux.</p><hr style="border:0;border-top:1px solid var(--line);width:100%"><div class="row-btns"><button class="btn" id="x-json">Afficher le JSON</button><button class="btn" id="x-imp">Coller un JSON</button></div><div id="io-pane"></div>`);
+    $('#d-open').onclick=dOpen;$('#d-pdf').onclick=()=>{closeModal();openPDF()};$('#d-save').onclick=()=>dSave(JSON.stringify(doc,null,2),'carte.vsm','vsm','Carte VSM');$('#d-svg').onclick=()=>dSave(exportSVG(),(page().name||'page')+'.svg','svg','Image SVG');$('#d-csv').onclick=dReport;
   } else openModal('Importer / Exporter',`<div class="row-btns"><button class="btn primary" id="x-json">Exporter JSON</button><button class="btn" id="x-svg">Exporter SVG</button><button class="btn" id="x-imp">Importer</button></div><div id="io-pane"></div>`);
   const pane=$('#io-pane');
   const showExp=(txt,what)=>{pane.innerHTML=`<p class="note">${what} de la page « ${esc(page().name)} »${what==='JSON'?' (toutes les pages)':''}. Copiez le contenu et enregistrez-le dans un fichier.</p><textarea id="io-ta" readonly aria-label="Contenu exporté">${esc(txt)}</textarea><div class="row-btns"><button class="btn primary" id="io-copy">Copier</button></div>`;$('#io-copy').onclick=ev=>copyText('io-ta',ev.target)};
@@ -1455,8 +1810,11 @@ $('#st-keys').onclick=()=>openModal('Raccourcis clavier',`<div class="keys">
 <kbd>Suppr</kbd><span>Supprimer</span>
 <kbd>0</kbd><span>Ajuster à l'écran</span>
 <kbd>Échap</kbd><span>Quitter le mode flux, désélectionner</span></div>`);
+$('#btn-pdf').onclick=()=>openPDF();
+$('#empty').addEventListener('click',e=>{const b=e.target.closest('[data-empty]');if(!b)return;if(b.dataset.empty==='sample')$('#btn-sample').click();else if(TAURI)dOpen()});
+if(!TAURI)$('#empty-open').hidden=true;
 $('#btn-sample').onclick=()=>{doc=sample();S.sel.clear();S.selLinks.clear();commit();render();renderPages();renderPanel();fitView()};
-$('#btn-new').onclick=()=>{doc={pages:[{id:uid(),name:'État actuel',params:defParams(),nodes:[],links:[]}],active:0};S.sel.clear();S.selLinks.clear();commit();render();renderPages();renderPanel();V.x=60;V.y=60;V.k=1;renderView()};
+$('#btn-new').onclick=()=>{doc=blankDoc();S.sel.clear();S.selLinks.clear();commit();render();renderPages();renderPanel();V.x=60;V.y=60;V.k=1;renderView()};
 
 /* ---------- Navigation ---------- */
 function showView(v){
@@ -1469,7 +1827,7 @@ window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h===
 document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
 
 /* ---------- Données d'exemple ---------- */
-function normalize(d){d.active=clamp(d.active|0,0,d.pages.length-1);d.pages.forEach(p=>{p.id=p.id||uid();p.name=p.name||'Page';p.params=Object.assign(defParams(),p.params||{});p.nodes=(p.nodes||[]).filter(n=>T[n.type]);p.links=(p.links||[]).filter(l=>LT[l.type])})}
+function normalize(d){d.active=clamp(d.active|0,0,d.pages.length-1);d.pages.forEach(p=>{p.id=p.id||uid();p.name=p.name||'Page';p.params=Object.assign(defParams(),p.params||{});p.nodes=(p.nodes||[]).filter(n=>T[n.type]);p.nodes.forEach(n=>{if(n.props&&n.props.split)syncSplit(n)});p.links=(p.links||[]).filter(l=>LT[l.type])})}
 function sample(){
   const build=(name,spec)=>{
     const pg={id:uid(),name,params:defParams(),nodes:[],links:[]},A={};
@@ -1488,7 +1846,7 @@ function sample(){
       ['p3','process',{name:'Peinture',ct:62,co:45,up:80,op:1,shifts:2,batch:200,scrap:3}],['i3','inventory',{qty:1600}],
       ['p4','process',{name:'Assemblage',ct:40,co:0,up:100,op:1,shifts:2,batch:1,scrap:0.5}],['i4','inventory',{qty:2700,name:'Produits finis'}],
       ['kz','kaizen',{name:'TPM + équilibrage'}],['gs','gosee',{}]],
-    place:[['kz',(A,r)=>[A.p3.x+A.p3.w-30,r-84]],['gs',(A,r)=>[A.ctl.x+A.ctl.w+14,A.ctl.y+48]]],
+    place:[['kz',(A,r)=>[A.p3.x+A.p3.w-30,r-172]],['gs',(A,r)=>[A.ctl.x+A.ctl.w+14,A.ctl.y+48]]],
     links:[['material','sup','i0'],['push','p1','p2'],['push','p2','p3'],['push','p3','p4'],['material','i4','cus'],
       ['electronic','cus','ctl','Prévisions 90/60/30 j'],['electronic','ctl','sup','Prévisions 6 semaines'],
       ['manual','ctl','p1','Planning hebdo'],['manual','ctl','p2'],['manual','ctl','p3'],['manual','ctl','p4']]});
@@ -1504,12 +1862,14 @@ function sample(){
   const z=fut.nodes.find(n=>n.type==='zone'),p3=fut.nodes.filter(isProc).sort((a,b)=>a.x-b.x)[2];if(z&&p3){z.w=p3.x+p3.w+24-z.x;z.h=200}
   return {pages:[cur,fut],active:0};
 }
-function load(){try{const s=localStorage.getItem(KEY);if(s){const d=JSON.parse(s);if(d&&Array.isArray(d.pages)&&d.pages.length){normalize(d);return d}}}catch(_){}return sample()}
+function load(){try{const s=localStorage.getItem(KEY);if(s){const d=JSON.parse(s);if(d&&Array.isArray(d.pages)&&d.pages.length){normalize(d);return d}}}catch(_){}return blankDoc()}
+function blankDoc(){return {pages:[{id:uid(),name:'État actuel',params:defParams(),nodes:[],links:[]}],active:0,meta:{title:'',author:'',org:''}}}
 
 /* ---------- Légende du brainstorming ---------- */
 function renderLegend(){
-  const items=Object.values(T).map(t=>`<div>${miniIcon(t.type)}<span>${esc(t.label)}</span></div>`).concat(Object.entries(LT).map(([k,v])=>`<div>${linkIcon(k)}<span>${esc(v.label)}</span></div>`));
-  $('#legend').innerHTML=items.join('');
+  let h=`<h3 class="leg-h">Flux (connecteurs) · ${Object.keys(LT).length}</h3><div class="legend-sym">${Object.entries(LT).map(([k,v])=>`<div>${linkIcon(k)}<span>${esc(v.label)}</span></div>`).join('')}</div>`;
+  CATS.forEach(([c,l])=>{const it=Object.values(T).filter(t=>t.cat===c);h+=`<h3 class="leg-h">${l} · ${it.length}</h3><div class="legend-sym">${it.map(t=>`<div>${miniIcon(t.type)}<span>${esc(t.label)}</span></div>`).join('')}</div>`});
+  $('#legend').innerHTML=h;$('#sym-count').textContent=Object.keys(T).length+Object.keys(LT).length;
 }
 
 /* ---------- Démarrage ---------- */
@@ -1522,6 +1882,15 @@ showView(startView);
 render();renderPanel();
 requestAnimationFrame(()=>{fitView()});
 window.addEventListener('resize',()=>{renderView()});
+window.AtelierVSM={buildSheets,metrics:()=>metrics(page()),
+  load(d){normalize(d);doc=d;S.sel.clear();S.selLinks.clear();commit();render();renderPages();renderPanel();fitView()},
+  build(spec){const pg={id:uid(),name:spec.name||'État actuel',params:Object.assign(defParams(),spec.params||{}),nodes:[],links:[]},A={};
+    spec.nodes.forEach(([k,type,props],i)=>{const n=mk(type,props,i*100,420);pg.nodes.push(n);A[k]=n});
+    pg.nodes.forEach(n=>{if(!FLOW.has(n.type)&&n.type!=='shipping'){n.x=0;n.y=0}});
+    autoLayout(pg,true);const row=pg.nodes.find(isProc).y;
+    (spec.place||[]).forEach(([k,dx,dy,ref])=>{const r=A[ref];A[k].x=Math.round(r.x+dx);A[k].y=Math.round((dy==null?row:r.y)+(dy||0))});
+    (spec.links||[]).forEach(([t,f,to,label])=>pg.links.push({id:uid(),type:t,from:A[f].id,to:A[to].id,label:label||''}));
+    return pg}};
 })();
 </script>
 </body>

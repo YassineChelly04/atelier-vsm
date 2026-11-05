@@ -1,0 +1,385 @@
+{
+  "pages": [
+    {
+      "id": "cibjua5",
+      "name": "État actuel",
+      "params": {
+        "demand": 18400,
+        "days": 20,
+        "shifts": 2,
+        "shiftMin": 460,
+        "pack": 20,
+        "tl2": true
+      },
+      "nodes": [
+        {
+          "id": "6n7v9vh",
+          "type": "supplier",
+          "x": 515,
+          "y": 150,
+          "w": 120,
+          "h": 84,
+          "props": {
+            "name": "Acier Ultra",
+            "note": ""
+          }
+        },
+        {
+          "id": "vc5hqpp",
+          "type": "customer",
+          "x": 1850,
+          "y": 150,
+          "w": 120,
+          "h": 140,
+          "props": {
+            "name": "Société Carbec"
+          }
+        },
+        {
+          "id": "ntjdra2",
+          "type": "control",
+          "x": 1080,
+          "y": 160,
+          "w": 170,
+          "h": 64,
+          "props": {
+            "name": "MRP",
+            "note": ""
+          }
+        },
+        {
+          "id": "zl83k2o",
+          "type": "truck",
+          "x": 411,
+          "y": 230,
+          "w": 84,
+          "h": 46,
+          "props": {
+            "note": "Lundi + jeudi"
+          }
+        },
+        {
+          "id": "zi8i3ih",
+          "type": "truck",
+          "x": 2036,
+          "y": 230,
+          "w": 84,
+          "h": 46,
+          "props": {
+            "note": "Livraison quotidienne"
+          }
+        },
+        {
+          "id": "96ts1gg",
+          "type": "inventory",
+          "x": 515,
+          "y": 397,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "qty": "",
+            "name": "",
+            "split": "",
+            "cov": 5
+          }
+        },
+        {
+          "id": "fz5y4cn",
+          "type": "process",
+          "x": 600,
+          "y": 420,
+          "w": 130,
+          "h": 145,
+          "props": {
+            "name": "Emboutissage",
+            "ct": 1,
+            "co": 60,
+            "up": 85,
+            "op": 1,
+            "shifts": 2,
+            "batch": "",
+            "scrap": "",
+            "ca": 100
+          }
+        },
+        {
+          "id": "zqxx6f9",
+          "type": "inventory",
+          "x": 765,
+          "y": 397,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "qty": 7000,
+            "name": "",
+            "split": "G=4600; D=2400"
+          }
+        },
+        {
+          "id": "mskb3m4",
+          "type": "process",
+          "x": 850,
+          "y": 420,
+          "w": 130,
+          "h": 145,
+          "props": {
+            "name": "Soudage Poste 1",
+            "ct": 39,
+            "co": 10,
+            "up": 100,
+            "op": 1,
+            "shifts": 2,
+            "batch": "",
+            "scrap": "",
+            "ca": 100
+          }
+        },
+        {
+          "id": "a6gxezx",
+          "type": "inventory",
+          "x": 1015,
+          "y": 397,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "qty": 1700,
+            "name": "",
+            "split": "G=1100; D=600"
+          }
+        },
+        {
+          "id": "8bu48uz",
+          "type": "process",
+          "x": 1100,
+          "y": 420,
+          "w": 130,
+          "h": 145,
+          "props": {
+            "name": "Soudage Poste 2",
+            "ct": 46,
+            "co": 10,
+            "up": 80,
+            "op": 1,
+            "shifts": 2,
+            "batch": "",
+            "scrap": "",
+            "ca": 100
+          }
+        },
+        {
+          "id": "rt5dw0q",
+          "type": "inventory",
+          "x": 1265,
+          "y": 397,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "qty": 2450,
+            "name": "",
+            "split": "G=1600; D=850"
+          }
+        },
+        {
+          "id": "8pu1rdy",
+          "type": "process",
+          "x": 1350,
+          "y": 420,
+          "w": 130,
+          "h": 145,
+          "props": {
+            "name": "Montage Poste 1",
+            "ct": 62,
+            "co": 60,
+            "up": 100,
+            "op": 1,
+            "shifts": 2,
+            "batch": "",
+            "scrap": "",
+            "ca": 100
+          }
+        },
+        {
+          "id": "v2xty71",
+          "type": "inventory",
+          "x": 1515,
+          "y": 397,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "qty": 1840,
+            "name": "",
+            "split": "G=1200; D=640"
+          }
+        },
+        {
+          "id": "purrmkj",
+          "type": "process",
+          "x": 1600,
+          "y": 420,
+          "w": 130,
+          "h": 145,
+          "props": {
+            "name": "Montage Poste 2",
+            "ct": 40,
+            "co": "",
+            "up": 100,
+            "op": 1,
+            "shifts": 2,
+            "batch": "",
+            "scrap": "",
+            "ca": 100
+          }
+        },
+        {
+          "id": "835ydd4",
+          "type": "inventory",
+          "x": 1765,
+          "y": 397,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "qty": 4140,
+            "name": "",
+            "split": "G=2700; D=1440"
+          }
+        },
+        {
+          "id": "h9jomeo",
+          "type": "shipping",
+          "x": 1850,
+          "y": 420,
+          "w": 130,
+          "h": 145,
+          "props": {
+            "name": "Expéditions",
+            "note": ""
+          }
+        },
+        {
+          "id": "1zg87ql",
+          "type": "databox",
+          "x": 1830,
+          "y": 68,
+          "w": 160,
+          "h": 70,
+          "props": {
+            "text": "G = 12 000 pièces\nD = 6 400 pièces\nPalette = 10 plateaux\n2 équipes"
+          }
+        }
+      ],
+      "links": [
+        {
+          "id": "9vy7kee",
+          "type": "material",
+          "from": "6n7v9vh",
+          "to": "96ts1gg",
+          "label": ""
+        },
+        {
+          "id": "c0mqj6i",
+          "type": "push",
+          "from": "fz5y4cn",
+          "to": "mskb3m4",
+          "label": ""
+        },
+        {
+          "id": "i12x13u",
+          "type": "push",
+          "from": "mskb3m4",
+          "to": "8bu48uz",
+          "label": ""
+        },
+        {
+          "id": "h486oq3",
+          "type": "push",
+          "from": "8bu48uz",
+          "to": "8pu1rdy",
+          "label": ""
+        },
+        {
+          "id": "pwmhm4i",
+          "type": "push",
+          "from": "8pu1rdy",
+          "to": "purrmkj",
+          "label": ""
+        },
+        {
+          "id": "woq3eqa",
+          "type": "push",
+          "from": "purrmkj",
+          "to": "h9jomeo",
+          "label": ""
+        },
+        {
+          "id": "5ccv5cz",
+          "type": "material",
+          "from": "h9jomeo",
+          "to": "vc5hqpp",
+          "label": ""
+        },
+        {
+          "id": "0n007nv",
+          "type": "electronic",
+          "from": "vc5hqpp",
+          "to": "ntjdra2",
+          "label": "Commande ferme quotidienne · 90/60/30 J"
+        },
+        {
+          "id": "zud7ya5",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "6n7v9vh",
+          "label": "Fax"
+        },
+        {
+          "id": "0649wok",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "fz5y4cn",
+          "label": "Planning hebdomadaire"
+        },
+        {
+          "id": "2bd5ts2",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "mskb3m4",
+          "label": ""
+        },
+        {
+          "id": "d5jwgm3",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "8bu48uz",
+          "label": ""
+        },
+        {
+          "id": "72pypod",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "8pu1rdy",
+          "label": ""
+        },
+        {
+          "id": "m0wtxbe",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "purrmkj",
+          "label": ""
+        },
+        {
+          "id": "i3evbg0",
+          "type": "electronic",
+          "from": "ntjdra2",
+          "to": "h9jomeo",
+          "label": "Planning quotidien des livraisons"
+        }
+      ]
+    }
+  ],
+  "active": 0,
+  "meta": {
+    "title": "VSM Emboutissage ABC",
+    "author": "Yassine Chelly",
+    "org": "3 MSPS"
+  }
+}
