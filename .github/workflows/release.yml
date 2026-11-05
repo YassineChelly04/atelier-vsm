@@ -1,9 +1,13 @@
 name: Release
 
-# Publie une release GitHub avec les installateurs Windows, macOS et Linux
-# à chaque tag « v* » (ex. v0.1.0), ou manuellement depuis l'onglet Actions.
+# Publie une release GitHub avec les installateurs Windows, macOS et Linux :
+# - à chaque push sur la branche « release » (le tag vX.Y.Z est créé d'après
+#   la version de src-tauri/tauri.conf.json),
+# - à chaque tag « v* » (ex. v0.1.0),
+# - ou manuellement depuis l'onglet Actions.
 on:
   push:
+    branches: [release]
     tags: ["v*"]
   workflow_dispatch:
 

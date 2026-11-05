@@ -47,10 +47,13 @@ cargo test --manifest-path src-tauri/Cargo.toml
 
 ## Publier une version
 
+Mettre à jour `version` dans `src-tauri/tauri.conf.json` (et `Cargo.toml`), puis :
+
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git push origin main:release
 ```
+
+Le workflow crée le tag `vX.Y.Z` et la release. Pousser un tag `v*` fonctionne aussi.
 
 Le workflow `Release` construit les installateurs Windows (`.msi`, `.exe`), macOS (`.dmg`
 Apple Silicon et Intel) et Linux (`.AppImage`, `.deb`, `.rpm`) et les attache à la release GitHub.
