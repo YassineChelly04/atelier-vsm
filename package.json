@@ -1,0 +1,14 @@
+{
+  "name": "atelier-vsm",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Atelier VSM — application desktop (Tauri + Rust) de cartographie de la chaîne de valeur",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.9.4"
+  }
+}
