@@ -1,7 +1,7 @@
 {
   "pages": [
     {
-      "id": "cibjua5",
+      "id": "4i7akyg",
       "name": "État actuel",
       "params": {
         "demand": 18400,
@@ -13,66 +13,107 @@
       },
       "nodes": [
         {
-          "id": "6n7v9vh",
+          "id": "f9s6v0d",
           "type": "supplier",
-          "x": 515,
+          "x": 815,
           "y": 150,
           "w": 120,
           "h": 84,
           "props": {
             "name": "Acier Ultra",
             "note": ""
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "vc5hqpp",
+          "id": "maevx2f",
           "type": "customer",
-          "x": 1850,
+          "x": 2150,
           "y": 150,
           "w": 120,
           "h": 140,
           "props": {
             "name": "Société Carbec"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "ntjdra2",
+          "id": "c4k62k3",
           "type": "control",
-          "x": 1080,
+          "x": 1380,
           "y": 160,
           "w": 170,
           "h": 64,
           "props": {
             "name": "MRP",
             "note": ""
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "zl83k2o",
+          "id": "bepmdev",
           "type": "truck",
-          "x": 411,
+          "x": 711,
           "y": 230,
           "w": 84,
           "h": 46,
           "props": {
             "note": "Lundi + jeudi"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "zi8i3ih",
+          "id": "6d772ol",
           "type": "truck",
-          "x": 2036,
+          "x": 2336,
           "y": 230,
           "w": 84,
           "h": 46,
           "props": {
             "note": "Livraison quotidienne"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "96ts1gg",
+          "id": "nynheon",
+          "type": "fax",
+          "x": 1070,
+          "y": 168,
+          "w": 50,
+          "h": 44,
+          "props": {
+            "name": "Fax"
+          },
+          "color": "#1D3E96"
+        },
+        {
+          "id": "pov48xf",
+          "type": "databox",
+          "x": 1385,
+          "y": 270,
+          "w": 170,
+          "h": 25,
+          "props": {
+            "text": "Planning hebdomadaire"
+          },
+          "color": "#C62828"
+        },
+        {
+          "id": "7774r9k",
+          "type": "databox",
+          "x": 1895,
+          "y": 270,
+          "w": 170,
+          "h": 40,
+          "props": {
+            "text": "Planning quotidien\ndes livraisons"
+          },
+          "color": "#2E7D32"
+        },
+        {
+          "id": "5xzpigx",
           "type": "inventory",
-          "x": 515,
+          "x": 815,
           "y": 397,
           "w": 50,
           "h": 44,
@@ -81,12 +122,13 @@
             "name": "",
             "split": "",
             "cov": 5
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "fz5y4cn",
+          "id": "m09lvno",
           "type": "process",
-          "x": 600,
+          "x": 900,
           "y": 420,
           "w": 130,
           "h": 145,
@@ -100,12 +142,13 @@
             "batch": "",
             "scrap": "",
             "ca": 100
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "zqxx6f9",
+          "id": "wcho3bt",
           "type": "inventory",
-          "x": 765,
+          "x": 1065,
           "y": 397,
           "w": 50,
           "h": 44,
@@ -113,12 +156,13 @@
             "qty": 7000,
             "name": "",
             "split": "G=4600; D=2400"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "mskb3m4",
+          "id": "au0x532",
           "type": "process",
-          "x": 850,
+          "x": 1150,
           "y": 420,
           "w": 130,
           "h": 145,
@@ -132,12 +176,13 @@
             "batch": "",
             "scrap": "",
             "ca": 100
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "a6gxezx",
+          "id": "aboz8d9",
           "type": "inventory",
-          "x": 1015,
+          "x": 1315,
           "y": 397,
           "w": 50,
           "h": 44,
@@ -145,12 +190,13 @@
             "qty": 1700,
             "name": "",
             "split": "G=1100; D=600"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "8bu48uz",
+          "id": "eezj6ci",
           "type": "process",
-          "x": 1100,
+          "x": 1400,
           "y": 420,
           "w": 130,
           "h": 145,
@@ -164,12 +210,13 @@
             "batch": "",
             "scrap": "",
             "ca": 100
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "rt5dw0q",
+          "id": "tv03jd9",
           "type": "inventory",
-          "x": 1265,
+          "x": 1565,
           "y": 397,
           "w": 50,
           "h": 44,
@@ -177,12 +224,13 @@
             "qty": 2450,
             "name": "",
             "split": "G=1600; D=850"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "8pu1rdy",
+          "id": "hhz5sdb",
           "type": "process",
-          "x": 1350,
+          "x": 1650,
           "y": 420,
           "w": 130,
           "h": 145,
@@ -196,12 +244,13 @@
             "batch": "",
             "scrap": "",
             "ca": 100
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "v2xty71",
+          "id": "s2wxp3c",
           "type": "inventory",
-          "x": 1515,
+          "x": 1815,
           "y": 397,
           "w": 50,
           "h": 44,
@@ -209,12 +258,13 @@
             "qty": 1840,
             "name": "",
             "split": "G=1200; D=640"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "purrmkj",
+          "id": "y1fyvi2",
           "type": "process",
-          "x": 1600,
+          "x": 1900,
           "y": 420,
           "w": 130,
           "h": 145,
@@ -228,12 +278,13 @@
             "batch": "",
             "scrap": "",
             "ca": 100
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "835ydd4",
+          "id": "zh91gnb",
           "type": "inventory",
-          "x": 1765,
+          "x": 2065,
           "y": 397,
           "w": 50,
           "h": 44,
@@ -241,137 +292,179 @@
             "qty": 4140,
             "name": "",
             "split": "G=2700; D=1440"
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "h9jomeo",
+          "id": "u4joxcz",
           "type": "shipping",
-          "x": 1850,
+          "x": 2150,
           "y": 420,
           "w": 130,
           "h": 145,
           "props": {
             "name": "Expéditions",
             "note": ""
-          }
+          },
+          "color": "#1D3E96"
         },
         {
-          "id": "1zg87ql",
+          "id": "95lxmkv",
           "type": "databox",
-          "x": 1830,
+          "x": 2170,
           "y": 68,
           "w": 160,
           "h": 70,
           "props": {
             "text": "G = 12 000 pièces\nD = 6 400 pièces\nPalette = 10 plateaux\n2 équipes"
-          }
+          },
+          "color": "#1D3E96"
         }
       ],
       "links": [
         {
-          "id": "9vy7kee",
+          "id": "cy3qydu",
           "type": "material",
-          "from": "6n7v9vh",
-          "to": "96ts1gg",
-          "label": ""
+          "from": "f9s6v0d",
+          "to": "5xzpigx",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "c0mqj6i",
+          "id": "8ts33kz",
           "type": "push",
-          "from": "fz5y4cn",
-          "to": "mskb3m4",
-          "label": ""
+          "from": "m09lvno",
+          "to": "au0x532",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "i12x13u",
+          "id": "74jmocj",
           "type": "push",
-          "from": "mskb3m4",
-          "to": "8bu48uz",
-          "label": ""
+          "from": "au0x532",
+          "to": "eezj6ci",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "h486oq3",
+          "id": "u74xtsz",
           "type": "push",
-          "from": "8bu48uz",
-          "to": "8pu1rdy",
-          "label": ""
+          "from": "eezj6ci",
+          "to": "hhz5sdb",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "pwmhm4i",
+          "id": "22gvxnv",
           "type": "push",
-          "from": "8pu1rdy",
-          "to": "purrmkj",
-          "label": ""
+          "from": "hhz5sdb",
+          "to": "y1fyvi2",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "woq3eqa",
+          "id": "txacmfd",
           "type": "push",
-          "from": "purrmkj",
-          "to": "h9jomeo",
-          "label": ""
+          "from": "y1fyvi2",
+          "to": "u4joxcz",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "5ccv5cz",
+          "id": "4acyqbq",
           "type": "material",
-          "from": "h9jomeo",
-          "to": "vc5hqpp",
-          "label": ""
+          "from": "u4joxcz",
+          "to": "maevx2f",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "0n007nv",
+          "id": "s26gyh3",
           "type": "electronic",
-          "from": "vc5hqpp",
-          "to": "ntjdra2",
-          "label": "Commande ferme quotidienne · 90/60/30 J"
+          "from": "maevx2f",
+          "to": "c4k62k3",
+          "label": "Commande ferme quotidienne · 90/60/30 J",
+          "color": "#1D3E96"
         },
         {
-          "id": "zud7ya5",
+          "id": "7u2ixyr",
           "type": "electronic",
-          "from": "ntjdra2",
-          "to": "6n7v9vh",
-          "label": "Fax"
+          "from": "c4k62k3",
+          "to": "nynheon",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "0649wok",
+          "id": "ddw6qz8",
           "type": "electronic",
-          "from": "ntjdra2",
-          "to": "fz5y4cn",
-          "label": "Planning hebdomadaire"
+          "from": "nynheon",
+          "to": "f9s6v0d",
+          "label": "",
+          "color": "#1D3E96"
         },
         {
-          "id": "2bd5ts2",
-          "type": "electronic",
-          "from": "ntjdra2",
-          "to": "mskb3m4",
-          "label": ""
+          "id": "bles3kd",
+          "type": "manual",
+          "from": "c4k62k3",
+          "to": "pov48xf",
+          "label": "",
+          "color": "#C62828"
         },
         {
-          "id": "d5jwgm3",
+          "id": "pepmr3v",
           "type": "electronic",
-          "from": "ntjdra2",
-          "to": "8bu48uz",
-          "label": ""
+          "from": "pov48xf",
+          "to": "m09lvno",
+          "label": "",
+          "color": "#C62828"
         },
         {
-          "id": "72pypod",
+          "id": "6pgzjqs",
           "type": "electronic",
-          "from": "ntjdra2",
-          "to": "8pu1rdy",
-          "label": ""
+          "from": "pov48xf",
+          "to": "au0x532",
+          "label": "",
+          "color": "#C62828"
         },
         {
-          "id": "m0wtxbe",
+          "id": "0kzm4z2",
           "type": "electronic",
-          "from": "ntjdra2",
-          "to": "purrmkj",
-          "label": ""
+          "from": "pov48xf",
+          "to": "eezj6ci",
+          "label": "",
+          "color": "#C62828"
         },
         {
-          "id": "i3evbg0",
+          "id": "xelqlfh",
           "type": "electronic",
-          "from": "ntjdra2",
-          "to": "h9jomeo",
-          "label": "Planning quotidien des livraisons"
+          "from": "pov48xf",
+          "to": "hhz5sdb",
+          "label": "",
+          "color": "#C62828"
+        },
+        {
+          "id": "bn4gebd",
+          "type": "electronic",
+          "from": "pov48xf",
+          "to": "y1fyvi2",
+          "label": "",
+          "color": "#C62828"
+        },
+        {
+          "id": "baqol9f",
+          "type": "manual",
+          "from": "c4k62k3",
+          "to": "7774r9k",
+          "label": "",
+          "color": "#2E7D32"
+        },
+        {
+          "id": "ukz3mc5",
+          "type": "electronic",
+          "from": "7774r9k",
+          "to": "u4joxcz",
+          "label": "",
+          "color": "#2E7D32"
         }
       ]
     }
